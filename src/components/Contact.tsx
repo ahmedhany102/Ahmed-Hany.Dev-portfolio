@@ -46,12 +46,12 @@ export function Contact() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-medium mb-3">Email</h3>
-                <p className="text-muted-foreground">ahmed.hany@example.com</p>
+                <p className="text-muted-foreground">ahmedhanyseif97@gmail.com</p>
               </div>
               
               <div>
                 <h3 className="text-xl font-medium mb-3">Location</h3>
-                <p className="text-muted-foreground">Cairo, Egypt</p>
+                <p className="text-muted-foreground">Elgharbia, Egypt</p>
               </div>
               
               <div>
