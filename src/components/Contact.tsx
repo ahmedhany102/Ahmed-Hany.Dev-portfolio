@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { Facebook, Instagram, Github } from "lucide-react";
 
 export function Contact() {
   const [name, setName] = useState("");
@@ -55,15 +56,33 @@ export function Contact() {
               
               <div>
                 <h3 className="text-xl font-medium mb-3">Connect</h3>
-                <div className="flex space-x-4">
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    GitHub
+                <div className="flex flex-wrap gap-4 mt-2">
+                  <a 
+                    href="https://github.com/ahmedhany102" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>GitHub</span>
                   </a>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    LinkedIn
+                  <a 
+                    href="https://www.facebook.com/profile.php?id=100053134410761" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Facebook className="w-5 h-5" />
+                    <span>Facebook</span>
                   </a>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Twitter
+                  <a 
+                    href="https://www.instagram.com/a7med._.hany/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Instagram className="w-5 h-5" />
+                    <span>Instagram</span>
                   </a>
                 </div>
               </div>

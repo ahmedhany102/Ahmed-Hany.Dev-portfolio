@@ -1,5 +1,6 @@
 
 import { ThemeToggle } from "./ThemeToggle";
+import { Facebook, Instagram, Github } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,14 +16,40 @@ export function Footer() {
           </div>
           
           <div className="flex items-center space-x-6">
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a 
+              href="https://github.com/ahmedhany102" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+            >
+              <Github className="w-4 h-4" />
               GitHub
             </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a 
+              href="https://www.linkedin.com/in/ahmed-hany" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
               LinkedIn
             </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Twitter
+            <a 
+              href="https://www.facebook.com/profile.php?id=100053134410761" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+            >
+              <Facebook className="w-4 h-4" />
+              Facebook
+            </a>
+            <a 
+              href="https://www.instagram.com/a7med._.hany/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+            >
+              <Instagram className="w-4 h-4" />
+              Instagram
             </a>
             <ThemeToggle />
           </div>
