@@ -24,14 +24,23 @@ export function Navbar() {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
+  const scrollToSection = (sectionId: string, isMobile = false) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+      if (isMobile) {
+        setMobileMenuOpen(false);
+      }
+    }
+  };
+
   const NavLink = ({ to, label, onClick }: { to: string; label: string; onClick?: () => void }) => (
-    <Link
-      to={to}
+    <button
       className="relative inline-block text-foreground hover:text-primary transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
       onClick={onClick}
     >
       {label}
-    </Link>
+    </button>
   );
 
   return (
@@ -75,10 +84,10 @@ export function Navbar() {
         {/* Desktop Navigation */}
         {!isMobile && (
           <nav className="flex items-center space-x-8">
-            <NavLink to="/#about" label="About" />
-            <NavLink to="/#projects" label="Projects" />
-            <NavLink to="/#blog" label="Blog" />
-            <NavLink to="/#contact" label="Contact" />
+            <NavLink to="#about" label="About" onClick={() => scrollToSection('about')} />
+            <NavLink to="#projects" label="Projects" onClick={() => scrollToSection('projects')} />
+            <NavLink to="#blog" label="Blog" onClick={() => scrollToSection('blog')} />
+            <NavLink to="#contact" label="Contact" onClick={() => scrollToSection('contact')} />
             <ThemeToggle />
           </nav>
         )}
@@ -86,10 +95,10 @@ export function Navbar() {
         {/* Mobile Navigation */}
         {isMobile && mobileMenuOpen && (
           <nav className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-lg shadow-md p-6 flex flex-col space-y-6 animate-fade-in">
-            <NavLink to="/#about" label="About" onClick={() => setMobileMenuOpen(false)} />
-            <NavLink to="/#projects" label="Projects" onClick={() => setMobileMenuOpen(false)} />
-            <NavLink to="/#blog" label="Blog" onClick={() => setMobileMenuOpen(false)} />
-            <NavLink to="/#contact" label="Contact" onClick={() => setMobileMenuOpen(false)} />
+            <NavLink to="#about" label="About" onClick={() => scrollToSection('about', true)} />
+            <NavLink to="#projects" label="Projects" onClick={() => scrollToSection('projects', true)} />
+            <NavLink to="#blog" label="Blog" onClick={() => scrollToSection('blog', true)} />
+            <NavLink to="#contact" label="Contact" onClick={() => scrollToSection('contact', true)} />
             <div className="flex justify-center">
               <ThemeToggle />
             </div>
