@@ -14,12 +14,12 @@ const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
-    // Initialize EmailJS with hardcoded fallback
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'IZgn4jwjJOvB-KaZs';
+    // Initialize EmailJS with direct configuration for better compatibility
+    const publicKey = 'IZgn4jwjJOvB-KaZs';
     
     try {
-      emailjs.init(publicKey);
-      console.log("EmailJS initialized successfully");
+      emailjs.init({ publicKey });
+      console.log("EmailJS initialized successfully with direct configuration");
     } catch (error) {
       console.error("Error initializing EmailJS:", error);
     }

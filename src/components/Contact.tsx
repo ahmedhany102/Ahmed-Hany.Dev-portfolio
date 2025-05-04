@@ -1,12 +1,12 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { toast as sonnerToast } from "sonner";
 import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check } from "lucide-react";
 import emailjs from '@emailjs/browser';
+import { useEmailStatus } from "@/hooks/use-email-status";
 
 export function Contact() {
   const [name, setName] = useState("");
@@ -15,65 +15,49 @@ export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
   const { toast } = useToast();
+  const { isEmailConfigured } = useEmailStatus();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
-      // Hardcoded credentials as a fallback if env variables are not set
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_fzu7ybc';
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_ap9hm8d';
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'IZgn4jwjJOvB-KaZs';
-      
-      // Initialize EmailJS directly here to ensure it's set
-      emailjs.init(publicKey);
-      
-      // Send email using EmailJS
-      const templateParams = {
-        from_name: name,
-        from_email: email,
-        message: message,
-        to_name: "Ahmed Hany",
-        to_email: "ahmedhanyseif97@gmail.com"
-      };
-      
-      console.log("Sending email with params:", {
-        serviceId,
-        templateId,
-        hasPublicKey: !!publicKey
-      });
-      
-      const response = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams
+      // Use EmailJS directly, bypassing account configuration
+      await emailjs.send(
+        "default_service",
+        "default_template",
+        {
+          from_name: name,
+          from_email: email,
+          message: message,
+          to_name: "Ahmed Hany",
+          reply_to: email
+        },
+        {
+          publicKey: "IZgn4jwjJOvB-KaZs",
+        }
       );
       
-      console.log("Email sent successfully:", response);
+      console.log("Email sent successfully");
       
-      if (response.status === 200) {
-        setFormSuccess(true);
-        toast({
-          title: "Message sent!",
-          description: "Thanks for reaching out. I'll get back to you soon.",
-        });
-        
-        sonnerToast("Message sent successfully!", {
-          description: "I'll get back to you soon.",
-          icon: <Check className="h-4 w-4 text-green-500" />
-        });
-        
-        // Reset form
-        setName("");
-        setEmail("");
-        setMessage("");
-        
-        // Reset success state after delay
-        setTimeout(() => setFormSuccess(false), 5000);
-      } else {
-        throw new Error("Failed to send message");
-      }
+      setFormSuccess(true);
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out. I'll get back to you soon.",
+      });
+      
+      sonnerToast("Message sent successfully!", {
+        description: "I'll get back to you soon.",
+        icon: <Check className="h-4 w-4 text-green-500" />
+      });
+      
+      // Reset form
+      setName("");
+      setEmail("");
+      setMessage("");
+      
+      // Reset success state after delay
+      setTimeout(() => setFormSuccess(false), 5000);
     } catch (error) {
       console.error("Error sending email:", error);
       toast({
