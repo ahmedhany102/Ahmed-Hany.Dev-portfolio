@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,11 +28,18 @@ export function Contact() {
         to_email: "ahmedhanyseif97@gmail.com"
       };
       
+      // Check if EmailJS has been initialized properly
+      if (!import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 
+          !import.meta.env.VITE_EMAILJS_SERVICE_ID || 
+          !import.meta.env.VITE_EMAILJS_TEMPLATE_ID) {
+        console.error("EmailJS environment variables are missing");
+        throw new Error("EmailJS configuration is incomplete");
+      }
+      
       const response = await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        templateParams
       );
       
       if (response.status === 200) {

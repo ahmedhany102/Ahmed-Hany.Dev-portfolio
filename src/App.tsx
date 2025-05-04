@@ -15,7 +15,12 @@ const queryClient = new QueryClient();
 const App = () => {
   useEffect(() => {
     // Initialize EmailJS
-    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+    if (import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
+      emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+      console.log("EmailJS initialized");
+    } else {
+      console.error("EmailJS public key is missing");
+    }
   }, []);
 
   return (

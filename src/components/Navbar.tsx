@@ -105,7 +105,7 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         {isMobile && mobileMenuOpen && (
-          <nav className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-lg shadow-md p-6 flex flex-col space-y-6 animate-fade-in">
+          <nav className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-lg shadow-md px-4 py-6 flex flex-col space-y-6 animate-fade-in">
             <NavLink to="#about" label="About" onClick={() => scrollToSection('about', true)} />
             <NavLink to="#projects" label="Projects" onClick={() => scrollToSection('projects', true)} />
             <NavLink to="#blog" label="Blog" onClick={() => scrollToSection('blog', true)} />
