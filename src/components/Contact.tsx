@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Facebook, Instagram, Github, Linkedin, Mail } from "lucide-react";
+import { toast as sonnerToast } from "sonner";
+import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check } from "lucide-react";
 import emailjs from '@emailjs/browser';
 
 export function Contact() {
@@ -12,6 +13,7 @@ export function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,6 +21,14 @@ export function Contact() {
     setIsSubmitting(true);
     
     try {
+      // Hardcoded credentials as a fallback if env variables are not set
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_fzu7ybc';
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_ap9hm8d';
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'IZgn4jwjJOvB-KaZs';
+      
+      // Initialize EmailJS directly here to ensure it's set
+      emailjs.init(publicKey);
+      
       // Send email using EmailJS
       const templateParams = {
         from_name: name,
@@ -28,30 +38,39 @@ export function Contact() {
         to_email: "ahmedhanyseif97@gmail.com"
       };
       
-      // Check if EmailJS has been initialized properly
-      if (!import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 
-          !import.meta.env.VITE_EMAILJS_SERVICE_ID || 
-          !import.meta.env.VITE_EMAILJS_TEMPLATE_ID) {
-        console.error("EmailJS environment variables are missing");
-        throw new Error("EmailJS configuration is incomplete");
-      }
+      console.log("Sending email with params:", {
+        serviceId,
+        templateId,
+        hasPublicKey: !!publicKey
+      });
       
       const response = await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        serviceId,
+        templateId,
         templateParams
       );
       
+      console.log("Email sent successfully:", response);
+      
       if (response.status === 200) {
+        setFormSuccess(true);
         toast({
           title: "Message sent!",
           description: "Thanks for reaching out. I'll get back to you soon.",
+        });
+        
+        sonnerToast("Message sent successfully!", {
+          description: "I'll get back to you soon.",
+          icon: <Check className="h-4 w-4 text-green-500" />
         });
         
         // Reset form
         setName("");
         setEmail("");
         setMessage("");
+        
+        // Reset success state after delay
+        setTimeout(() => setFormSuccess(false), 5000);
       } else {
         throw new Error("Failed to send message");
       }
@@ -61,6 +80,11 @@ export function Contact() {
         title: "Error",
         description: "Failed to send message. Please try again later.",
         variant: "destructive",
+      });
+      
+      sonnerToast("Failed to send message", {
+        description: "Please try again or contact me directly via email.",
+        icon: <Mail className="h-4 w-4 text-red-500" />,
       });
     } finally {
       setIsSubmitting(false);
@@ -148,6 +172,7 @@ export function Contact() {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   required
+                  className={`transition-all duration-300 ${formSuccess ? 'border-green-500' : ''}`}
                 />
               </div>
               
@@ -162,6 +187,7 @@ export function Contact() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your.email@example.com"
                   required
+                  className={`transition-all duration-300 ${formSuccess ? 'border-green-500' : ''}`}
                 />
               </div>
               
@@ -176,12 +202,28 @@ export function Contact() {
                   placeholder="How can I help you?"
                   rows={5}
                   required
+                  className={`transition-all duration-300 ${formSuccess ? 'border-green-500' : ''}`}
                 />
               </div>
               
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Send Message"}
+              <Button 
+                type="submit" 
+                className="w-full group relative overflow-hidden" 
+                disabled={isSubmitting}
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {!isSubmitting && <Send className="w-4 h-4" />}
+                </span>
+                <span className={`absolute inset-0 bg-primary-foreground opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></span>
               </Button>
+              
+              {formSuccess && (
+                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 rounded-md p-4 mt-4 text-sm flex items-center gap-2">
+                  <Check className="h-4 w-4" />
+                  <span>Message sent successfully!</span>
+                </div>
+              )}
             </form>
           </div>
         </div>

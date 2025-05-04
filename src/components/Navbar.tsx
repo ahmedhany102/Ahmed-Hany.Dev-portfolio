@@ -7,12 +7,23 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const isMobile = useIsMobile();
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
+      
+      // Determine active section based on scroll position
+      const sections = ['home', 'about', 'skills', 'projects', 'blog', 'contact'];
+      for (const section of sections.reverse()) {
+        const element = document.getElementById(section);
+        if (element && window.scrollY >= element.offsetTop - 100) {
+          setActiveSection(section);
+          break;
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -35,14 +46,22 @@ export function Navbar() {
     }
   };
 
-  const NavLink = ({ to, label, onClick }: { to: string; label: string; onClick?: () => void }) => (
-    <button
-      className="relative inline-block text-foreground hover:text-primary transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
-      onClick={onClick}
-    >
-      {label}
-    </button>
-  );
+  const NavLink = ({ to, label, onClick }: { to: string; label: string; onClick?: () => void }) => {
+    const isActive = activeSection === to.replace('#', '');
+    
+    return (
+      <button
+        className={`relative inline-block transition-colors duration-300 after:content-[''] after:absolute after:w-full after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
+          isActive 
+            ? "text-primary after:scale-x-100 after:origin-bottom-left" 
+            : "text-foreground hover:text-primary after:scale-x-0"
+        }`}
+        onClick={onClick}
+      >
+        {label}
+      </button>
+    );
+  };
 
   // Check if we're on the homepage
   const isHomePage = location.pathname === '/';
@@ -96,6 +115,7 @@ export function Navbar() {
         {!isMobile && (
           <nav className="flex items-center space-x-8">
             <NavLink to="#about" label="About" onClick={() => scrollToSection('about')} />
+            <NavLink to="#skills" label="Skills" onClick={() => scrollToSection('skills')} />
             <NavLink to="#projects" label="Projects" onClick={() => scrollToSection('projects')} />
             <NavLink to="#blog" label="Blog" onClick={() => scrollToSection('blog')} />
             <NavLink to="#contact" label="Contact" onClick={() => scrollToSection('contact')} />
@@ -107,6 +127,7 @@ export function Navbar() {
         {isMobile && mobileMenuOpen && (
           <nav className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-lg shadow-md px-4 py-6 flex flex-col space-y-6 animate-fade-in">
             <NavLink to="#about" label="About" onClick={() => scrollToSection('about', true)} />
+            <NavLink to="#skills" label="Skills" onClick={() => scrollToSection('skills', true)} />
             <NavLink to="#projects" label="Projects" onClick={() => scrollToSection('projects', true)} />
             <NavLink to="#blog" label="Blog" onClick={() => scrollToSection('blog', true)} />
             <NavLink to="#contact" label="Contact" onClick={() => scrollToSection('contact', true)} />

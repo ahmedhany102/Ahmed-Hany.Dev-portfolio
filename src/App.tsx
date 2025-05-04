@@ -14,12 +14,14 @@ const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
-    // Initialize EmailJS
-    if (import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
-      emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-      console.log("EmailJS initialized");
-    } else {
-      console.error("EmailJS public key is missing");
+    // Initialize EmailJS with hardcoded fallback
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'IZgn4jwjJOvB-KaZs';
+    
+    try {
+      emailjs.init(publicKey);
+      console.log("EmailJS initialized successfully");
+    } catch (error) {
+      console.error("Error initializing EmailJS:", error);
     }
   }, []);
 
