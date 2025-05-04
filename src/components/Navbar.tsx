@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -8,6 +8,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isMobile = useIsMobile();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,6 +44,9 @@ export function Navbar() {
     </button>
   );
 
+  // Check if we're on the homepage
+  const isHomePage = location.pathname === '/';
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${
@@ -50,9 +54,16 @@ export function Navbar() {
       }`}
     >
       <div className="container-custom flex justify-between items-center">
-        <Link to="/" className="text-xl font-semibold">
-          Ahmed Hany
-        </Link>
+        {/* Use the home path directly without Link when on homepage */}
+        {isHomePage ? (
+          <a href="#" className="text-xl font-semibold">
+            Ahmed Hany
+          </a>
+        ) : (
+          <Link to="/" className="text-xl font-semibold">
+            Ahmed Hany
+          </Link>
+        )}
 
         {/* Mobile Menu Button */}
         {isMobile && (
