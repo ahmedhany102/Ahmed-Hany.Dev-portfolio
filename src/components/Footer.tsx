@@ -1,6 +1,6 @@
 
 import { ThemeToggle } from "./ThemeToggle";
-import { Facebook, Instagram, Github } from "lucide-react";
+import { Facebook, Instagram, Github, Linkedin, Mail } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -26,11 +26,12 @@ export function Footer() {
               GitHub
             </a>
             <a 
-              href="https://www.linkedin.com/in/ahmed-hany" 
+              href="https://www.linkedin.com/in/ahmed-hany-436342257/" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
             >
+              <Linkedin className="w-4 h-4" />
               LinkedIn
             </a>
             <a 
@@ -50,6 +51,13 @@ export function Footer() {
             >
               <Instagram className="w-4 h-4" />
               Instagram
+            </a>
+            <a 
+              href="mailto:ahmedhanyseif97@gmail.com" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+            >
+              <Mail className="w-4 h-4" />
+              Email
             </a>
             <ThemeToggle />
           </div>
