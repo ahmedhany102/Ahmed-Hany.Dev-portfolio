@@ -7,6 +7,7 @@ import { Blog } from "@/components/Blog";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { BackendInfo } from "@/components/BackendInfo";
 
 const Index = () => {
   return (
@@ -17,6 +18,7 @@ const Index = () => {
         <About />
         <Skills />
         <Projects />
+        <BackendInfo />
         <Blog />
         <Contact />
       </main>
