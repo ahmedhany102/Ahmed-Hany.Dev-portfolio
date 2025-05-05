@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChartBar } from "lucide-react";
 
 type Project = {
   title: string;
@@ -11,6 +11,7 @@ type Project = {
   technologies: string[];
   link: string;
   image: string;
+  isFrontendOnly?: boolean;
 };
 
 const projects: Project[] = [
@@ -18,15 +19,16 @@ const projects: Project[] = [
     title: "Ahmed Hany's Portfolio",
     description: "A personal portfolio website with modern design, animations, and interactive elements.",
     technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    link: "https://ahmeds-portfolio.vercel.app",
+    link: "https://ahmedhany102.github.io/Portfolio.Ahmed-Hany/",
     image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
   {
-    title: "E-Commerce Platform",
-    description: "A full-featured online store with product listings, cart functionality, and secure payment processing.",
+    title: "Big Web",
+    description: "A comprehensive web platform showcasing frontend development skills and modern design principles.",
     technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
-    link: "https://ahmed-ecommerce.herokuapp.com",
+    link: "https://ahmedhany102.github.io/ALMaw3EZaa/",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    isFrontendOnly: true,
   },
   {
     title: "Real Estate Listing App",
@@ -72,7 +74,14 @@ export function Projects() {
                 onMouseLeave={() => setActiveIndex(null)}
               >
                 <CardHeader>
-                  <CardTitle>{project.title}</CardTitle>
+                  <div className="flex justify-between items-start">
+                    <CardTitle>{project.title}</CardTitle>
+                    {project.isFrontendOnly && (
+                      <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-md">
+                        Frontend Only
+                      </span>
+                    )}
+                  </div>
                   <CardDescription>{project.description}</CardDescription>
                 </CardHeader>
                 <CardContent>

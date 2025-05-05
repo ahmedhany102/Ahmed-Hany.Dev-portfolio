@@ -21,8 +21,8 @@ export function About() {
               efficient code and implementing modern design principles.
             </p>
             <p className="text-lg">
-              With a strong foundation in frontend and backend technologies, I enjoy 
-              building complete web solutions that provide exceptional user experiences.
+              With a strong foundation in frontend technologies, I enjoy 
+              building web solutions that provide exceptional user experiences.
               I'm constantly learning and adapting to new technologies to stay at the
               forefront of web development.
             </p>
@@ -45,8 +45,9 @@ export function About() {
                 <CardContent className="p-6">
                   <h4 className="font-medium mb-2">Education</h4>
                   <p className="text-sm text-muted-foreground">
-                    I hold a degree in Computer Science and have completed multiple specialized 
-                    courses in web development, focusing on modern frameworks and practices.
+                    I am currently in the early stages of my Computer Science education, 
+                    learning the fundamentals and building a strong theoretical foundation while 
+                    applying practical skills through projects.
                   </p>
                 </CardContent>
               </Card>
@@ -55,8 +56,9 @@ export function About() {
                 <CardContent className="p-6">
                   <h4 className="font-medium mb-2">Work Experience</h4>
                   <p className="text-sm text-muted-foreground">
-                    I've worked with various clients and companies, helping them build 
-                    robust web solutions that meet their business needs and engage their users.
+                    I have experience working in web development, particularly focused on 
+                    frontend technologies and creating responsive, user-friendly interfaces 
+                    for various web applications.
                   </p>
                 </CardContent>
               </Card>

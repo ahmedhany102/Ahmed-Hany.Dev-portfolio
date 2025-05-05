@@ -1,8 +1,9 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
 import { SkillProgress } from "./SkillProgress";
+import { Progress } from "@/components/ui/progress";
+import { ChartBar } from "lucide-react";
 
 type Skill = {
   name: string;
@@ -147,14 +148,29 @@ export function Skills() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredSkills.map((skill, index) => (
-            <SkillProgress
+            <motion.div
               key={skill.name}
-              name={skill.name}
-              level={skill.level}
-              color={skill.color}
-              description={skill.description}
-              isVisible={animateSkills}
-            />
+              className="bg-card border rounded-lg p-6 hover:shadow-md transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: animateSkills ? 1 : 0, y: animateSkills ? 0 : 20 }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              whileHover={{ scale: 1.02 }}
+            >
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-lg font-medium">{skill.name}</h3>
+                <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
+                  {Math.round(skill.level)}%
+                </div>
+              </div>
+              
+              <div className="mb-4">
+                <Progress value={skill.level} className="h-2" />
+              </div>
+              
+              <p className="text-sm text-muted-foreground">
+                {skill.description}
+              </p>
+            </motion.div>
           ))}
         </div>
       </div>
