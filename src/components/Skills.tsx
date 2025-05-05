@@ -12,6 +12,7 @@ type Skill = {
   color: string;
   description: string;
   status?: string;
+  comingSoon?: boolean;
 };
 
 const skillsData: Skill[] = [
@@ -21,16 +22,13 @@ const skillsData: Skill[] = [
   { name: "TypeScript", level: 80, category: "frontend", color: "bg-blue-600", description: "Type-safe code with interfaces, generics, and utility types" },
   { name: "Tailwind CSS", level: 85, category: "frontend", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development" },
   { name: "Redux", level: 75, category: "frontend", color: "bg-purple-600", description: "State management with Redux and Redux Toolkit" },
-  { name: "Next.js", level: 80, category: "frontend", color: "bg-black", description: "React framework for production with SSR and static site generation" },
+  { name: "Next.js", level: 80, category: "frontend", color: "bg-black", description: "React framework for production with SSR and static site generation", comingSoon: true },
   { name: "C++", level: 70, category: "backend", color: "bg-blue-800", description: "Problem solving and strengthening programming logic" },
   { name: "C#", level: 70, category: "backend", color: "bg-purple-700", description: "Building applications with C# fundamentals" },
   { name: "OOP C#", level: 65, category: "backend", color: "bg-purple-800", description: "Object-oriented programming principles with C#" },
   { name: "GitHub", level: 80, category: "tools", color: "bg-gray-800", description: "Version control and collaborative development" },
   { name: "Vibe Coding", level: 90, category: "tools", color: "bg-pink-600", description: "Creating aesthetically pleasing and functional interfaces" },
-  { name: "Node.js", level: 45, category: "backend", color: "bg-green-600", description: "Server-side JavaScript runtime environment", status: "Learning" },
-  { name: "MongoDB", level: 40, category: "backend", color: "bg-green-700", description: "NoSQL database for modern applications", status: "Learning" },
-  { name: "Firebase", level: 50, category: "backend", color: "bg-yellow-600", description: "Backend-as-a-Service platform with realtime database", status: "Learning" },
-  { name: "REST API", level: 60, category: "backend", color: "bg-blue-700", description: "Designing and consuming RESTful APIs", status: "Learning" },
+  { name: "Node.js", level: 45, category: "backend", color: "bg-green-600", description: "Server-side JavaScript runtime environment", comingSoon: true },
 ];
 
 export function Skills() {
@@ -85,7 +83,7 @@ export function Skills() {
           animate={{ opacity: isInView ? 1 : 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          Here are the technologies I work with to bring ideas to life. I'm constantly learning and adding new skills to my repertoire.
+          As a junior frontend developer in a development team, I'm constantly improving my skills and learning new technologies to grow professionally.
         </motion.p>
 
         <motion.div 
@@ -163,6 +161,11 @@ export function Skills() {
                   {skill.status && (
                     <span className="px-2 py-1 rounded text-xs bg-amber-500 text-white">
                       {skill.status}
+                    </span>
+                  )}
+                  {skill.comingSoon && (
+                    <span className="px-2 py-1 rounded text-xs bg-purple-500 text-white">
+                      Coming Soon
                     </span>
                   )}
                   <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>

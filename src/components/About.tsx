@@ -16,15 +16,14 @@ export function About() {
             transition={{ duration: 0.5 }}
           >
             <p className="text-lg">
-              I'm Ahmed Hany, a passionate web developer with a keen eye for creating 
+              I'm Ahmed Hany, a passionate junior frontend web developer with a keen eye for creating 
               beautiful, functional websites and applications. I focus on writing clean, 
               efficient code and implementing modern design principles.
             </p>
             <p className="text-lg">
-              With a strong foundation in frontend technologies, I enjoy 
+              Currently, I'm a frontend team member in a development team where I'm constantly 
+              improving my skills and gaining valuable real-world experience. I enjoy 
               building web solutions that provide exceptional user experiences.
-              I'm constantly learning and adapting to new technologies to stay at the
-              forefront of web development.
             </p>
             <p className="text-lg">
               When I'm not coding, you can find me exploring new technologies, contributing 
@@ -56,9 +55,9 @@ export function About() {
                 <CardContent className="p-6">
                   <h4 className="font-medium mb-2">Work Experience</h4>
                   <p className="text-sm text-muted-foreground">
-                    I have experience working in web development, particularly focused on 
-                    frontend technologies and creating responsive, user-friendly interfaces 
-                    for various web applications.
+                    I'm currently working as a frontend developer in a development team, 
+                    where I'm building and maintaining responsive, user-friendly interfaces 
+                    and continuously expanding my technical expertise.
                   </p>
                 </CardContent>
               </Card>
