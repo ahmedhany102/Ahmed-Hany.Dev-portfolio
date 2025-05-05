@@ -1,7 +1,7 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
-import { SkillProgress } from "./SkillProgress";
 import { Progress } from "@/components/ui/progress";
 import { ChartBar } from "lucide-react";
 
@@ -11,25 +11,26 @@ type Skill = {
   category: 'frontend' | 'backend' | 'tools';
   color: string;
   description: string;
+  status?: string;
 };
 
 const skillsData: Skill[] = [
+  { name: "HTML & CSS", level: 100, category: "frontend", color: "bg-orange-500", description: "Semantic HTML5 and modern CSS including Flexbox and Grid" },
+  { name: "JavaScript", level: 50, category: "frontend", color: "bg-yellow-500", description: "ES6+, async/await, promises, and functional programming", status: "Learning" },
   { name: "React", level: 90, category: "frontend", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks" },
-  { name: "JavaScript", level: 85, category: "frontend", color: "bg-yellow-500", description: "ES6+, async/await, promises, and functional programming" },
   { name: "TypeScript", level: 80, category: "frontend", color: "bg-blue-600", description: "Type-safe code with interfaces, generics, and utility types" },
-  { name: "HTML & CSS", level: 90, category: "frontend", color: "bg-orange-500", description: "Semantic HTML5 and modern CSS including Flexbox and Grid" },
   { name: "Tailwind CSS", level: 85, category: "frontend", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development" },
   { name: "Redux", level: 75, category: "frontend", color: "bg-purple-600", description: "State management with Redux and Redux Toolkit" },
   { name: "Next.js", level: 80, category: "frontend", color: "bg-black", description: "React framework for production with SSR and static site generation" },
-  { name: "Node.js", level: 75, category: "backend", color: "bg-green-600", description: "Server-side JavaScript runtime environment" },
-  { name: "Express", level: 70, category: "backend", color: "bg-gray-600", description: "Web application framework for Node.js" },
-  { name: "MongoDB", level: 65, category: "backend", color: "bg-green-700", description: "NoSQL database for modern applications" },
-  { name: "Firebase", level: 70, category: "backend", color: "bg-yellow-600", description: "Backend-as-a-Service platform with realtime database" },
-  { name: "REST API", level: 80, category: "backend", color: "bg-blue-700", description: "Designing and consuming RESTful APIs" },
-  { name: "Git & GitHub", level: 85, category: "tools", color: "bg-orange-600", description: "Version control system and repository hosting" },
-  { name: "VS Code", level: 90, category: "tools", color: "bg-blue-800", description: "Code editor with powerful extensions" },
-  { name: "Webpack", level: 70, category: "tools", color: "bg-blue-500", description: "Module bundler for JavaScript applications" },
-  { name: "Jest", level: 65, category: "tools", color: "bg-red-600", description: "JavaScript testing framework" },
+  { name: "C++", level: 70, category: "backend", color: "bg-blue-800", description: "Problem solving and strengthening programming logic" },
+  { name: "C#", level: 70, category: "backend", color: "bg-purple-700", description: "Building applications with C# fundamentals" },
+  { name: "OOP C#", level: 65, category: "backend", color: "bg-purple-800", description: "Object-oriented programming principles with C#" },
+  { name: "GitHub", level: 80, category: "tools", color: "bg-gray-800", description: "Version control and collaborative development" },
+  { name: "Vibe Coding", level: 90, category: "tools", color: "bg-pink-600", description: "Creating aesthetically pleasing and functional interfaces" },
+  { name: "Node.js", level: 45, category: "backend", color: "bg-green-600", description: "Server-side JavaScript runtime environment", status: "Learning" },
+  { name: "MongoDB", level: 40, category: "backend", color: "bg-green-700", description: "NoSQL database for modern applications", status: "Learning" },
+  { name: "Firebase", level: 50, category: "backend", color: "bg-yellow-600", description: "Backend-as-a-Service platform with realtime database", status: "Learning" },
+  { name: "REST API", level: 60, category: "backend", color: "bg-blue-700", description: "Designing and consuming RESTful APIs", status: "Learning" },
 ];
 
 export function Skills() {
@@ -146,11 +147,11 @@ export function Skills() {
           </motion.div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredSkills.map((skill, index) => (
             <motion.div
               key={skill.name}
-              className="bg-card border rounded-lg p-6 hover:shadow-md transition-all duration-300"
+              className="bg-card border rounded-lg p-4 hover:shadow-md transition-all duration-300"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: animateSkills ? 1 : 0, y: animateSkills ? 0 : 20 }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
@@ -158,8 +159,15 @@ export function Skills() {
             >
               <div className="flex justify-between items-center mb-2">
                 <h3 className="text-lg font-medium">{skill.name}</h3>
-                <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
-                  {Math.round(skill.level)}%
+                <div className="flex items-center gap-2">
+                  {skill.status && (
+                    <span className="px-2 py-1 rounded text-xs bg-amber-500 text-white">
+                      {skill.status}
+                    </span>
+                  )}
+                  <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
+                    {Math.round(skill.level)}%
+                  </div>
                 </div>
               </div>
               

@@ -12,6 +12,7 @@ type Project = {
   link: string;
   image: string;
   isFrontendOnly?: boolean;
+  isApiOnly?: boolean;
 };
 
 const projects: Project[] = [
@@ -21,13 +22,14 @@ const projects: Project[] = [
     technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
     link: "https://ahmedhany102.github.io/Portfolio.Ahmed-Hany/",
     image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    isFrontendOnly: true,
   },
   {
     title: "Big Web",
     description: "A comprehensive web platform showcasing frontend development skills and modern design principles.",
     technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
     link: "https://ahmedhany102.github.io/ALMaw3EZaa/",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    image: "https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,
   },
   {
@@ -44,6 +46,7 @@ const projects: Project[] = [
     technologies: ["React", "OpenWeather API", "Chart.js", "CSS3"],
     link: "https://openweathermap.org/",
     image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    isApiOnly: true,
   },
 ];
 
@@ -77,11 +80,18 @@ export function Projects() {
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <CardTitle>{project.title}</CardTitle>
-                    {project.isFrontendOnly && (
-                      <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-md">
-                        Frontend Only
-                      </span>
-                    )}
+                    <div className="flex gap-2">
+                      {project.isFrontendOnly && (
+                        <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-md">
+                          Frontend Only
+                        </span>
+                      )}
+                      {project.isApiOnly && (
+                        <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-md">
+                          API Only
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <CardDescription>{project.description}</CardDescription>
                 </CardHeader>
