@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Database, Server, Code, Cogs } from "lucide-react";
+import { Database, Server, Code, Cog } from "lucide-react";
 
 export function BackendInfo() {
   const [showInfo, setShowInfo] = useState(false);
@@ -21,7 +21,7 @@ export function BackendInfo() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Cogs className="h-5 w-5" />
+                <Cog className="h-5 w-5" />
                 Programming Foundations
               </CardTitle>
               <CardDescription>
