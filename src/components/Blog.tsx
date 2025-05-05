@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, ExternalLink } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 type BlogPost = {
   title: string;
@@ -13,48 +14,54 @@ type BlogPost = {
   readTime: string;
   link: string;
   category: string;
+  progress: number;
 };
 
 const blogPosts: BlogPost[] = [
   {
-    title: "Getting Started with React Hooks",
-    excerpt: "Learn how to use React Hooks to simplify your components and manage state more effectively.",
+    title: "Understanding React Hooks: A Comprehensive Guide",
+    excerpt: "React Hooks have revolutionized how we write React components. Learn how to use useState, useEffect, useContext and more to build better applications.",
     date: "April 25, 2023",
-    readTime: "5 min read",
-    link: "#",
+    readTime: "8 min read",
+    link: "https://reactjs.org/docs/hooks-intro.html",
     category: "React",
+    progress: 75,
   },
   {
     title: "Building a RESTful API with Node.js and Express",
-    excerpt: "A step-by-step guide to creating your own REST API using Node.js, Express, and MongoDB.",
+    excerpt: "Learn how to create a fully-featured REST API from scratch using Node.js, Express, and MongoDB. Includes authentication, validation, and error handling.",
     date: "March 30, 2023",
-    readTime: "8 min read",
-    link: "#",
+    readTime: "12 min read",
+    link: "https://www.freecodecamp.org/news/build-a-restful-api-with-node-js-and-express-js/",
     category: "Node.js",
+    progress: 90,
   },
   {
-    title: "Optimizing Website Performance",
-    excerpt: "Techniques and strategies to improve your website's loading speed and overall performance.",
+    title: "The Complete Guide to Modern Web Performance Optimization",
+    excerpt: "Discover the latest techniques for improving web performance including code splitting, lazy loading, caching strategies, and server-side optimizations.",
     date: "March 12, 2023",
-    readTime: "8 min read",
-    link: "#",
+    readTime: "15 min read",
+    link: "https://web.dev/learn/performance/",
     category: "Performance",
+    progress: 60,
   },
   {
-    title: "The Power of CSS Grid Layout",
-    excerpt: "Explore the capabilities of CSS Grid and how it can transform your web layouts.",
+    title: "CSS Grid Layout: The Complete Developer's Guide",
+    excerpt: "Master CSS Grid with practical examples and learn how to create responsive layouts with this powerful tool. Includes tips for browser compatibility.",
     date: "February 3, 2023",
-    readTime: "6 min read",
-    link: "#",
+    readTime: "10 min read",
+    link: "https://css-tricks.com/snippets/css/complete-guide-grid/",
     category: "CSS",
+    progress: 85,
   },
   {
-    title: "TypeScript Best Practices for React Developers",
-    excerpt: "Learn how to effectively use TypeScript with React to create type-safe and maintainable applications.",
+    title: "TypeScript Best Practices for React Applications",
+    excerpt: "Improve your React codebase with TypeScript. Learn about proper typing, generics, interfaces, and how to avoid common pitfalls in TypeScript React projects.",
     date: "January 18, 2023",
-    readTime: "7 min read",
-    link: "#",
+    readTime: "11 min read",
+    link: "https://www.typescriptlang.org/docs/handbook/react.html",
     category: "TypeScript",
+    progress: 70,
   },
 ];
 
@@ -65,6 +72,7 @@ export function Blog() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredPosts, setFilteredPosts] = useState(blogPosts);
   const [hoveredPost, setHoveredPost] = useState<number | null>(null);
+  const [progressValues, setProgressValues] = useState<number[]>(blogPosts.map(post => 0));
 
   // Filter posts based on search term and category
   useEffect(() => {
@@ -77,6 +85,15 @@ export function Blog() {
     
     setFilteredPosts(filtered);
   }, [searchTerm, selectedCategory]);
+
+  // Animate progress bars
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setProgressValues(blogPosts.map(post => post.progress));
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section id="blog" className="section bg-muted/30">
@@ -148,15 +165,28 @@ export function Blog() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
+                      
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-xs">
+                          <span>Reading progress</span>
+                          <span>{progressValues[blogPosts.indexOf(post)]}%</span>
+                        </div>
+                        <Progress value={progressValues[blogPosts.indexOf(post)]} className="h-2" />
+                      </div>
+                    </div>
                   </CardContent>
                   <CardFooter>
                     <Button 
                       variant={hoveredPost === index ? "default" : "link"} 
-                      className={`px-0 ${hoveredPost === index ? 'px-4' : ''}`} 
+                      className={`px-0 ${hoveredPost === index ? 'px-4' : ''} flex items-center gap-2`} 
                       asChild
                     >
-                      <a href={post.link}>Read More →</a>
+                      <a href={post.link} target="_blank" rel="noopener noreferrer">
+                        Read More
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -166,8 +196,11 @@ export function Blog() {
         </div>
         
         <div className="mt-10 text-center">
-          <Button variant="outline" size="lg">
-            View All Posts
+          <Button variant="outline" size="lg" asChild>
+            <a href="https://dev.to" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+              View All Posts
+              <ExternalLink className="h-4 w-4" />
+            </a>
           </Button>
         </div>
       </div>

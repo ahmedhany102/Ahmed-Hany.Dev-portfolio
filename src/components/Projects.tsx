@@ -3,13 +3,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 
 type Project = {
   title: string;
   description: string;
   technologies: string[];
   link: string;
-  image?: string;
+  image: string;
 };
 
 const projects: Project[] = [
@@ -17,29 +18,29 @@ const projects: Project[] = [
     title: "Ahmed Hany's Portfolio",
     description: "A personal portfolio website with modern design, animations, and interactive elements.",
     technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    link: "#",
-    image: "portfolio.jpg",
+    link: "https://ahmeds-portfolio.vercel.app",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
   {
     title: "E-Commerce Platform",
     description: "A full-featured online store with product listings, cart functionality, and secure payment processing.",
     technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
-    link: "#",
-    image: "ecommerce.jpg",
+    link: "https://ahmed-ecommerce.herokuapp.com",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
   {
     title: "Real Estate Listing App",
     description: "A property listing website with search filters, maps integration, and user accounts.",
     technologies: ["Next.js", "Firebase", "Google Maps API", "Tailwind CSS"],
-    link: "#",
-    image: "realestate.jpg",
+    link: "https://ahmed-realestate.vercel.app",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
   {
     title: "Weather Dashboard",
     description: "A weather application displaying current conditions and forecasts using external API data.",
     technologies: ["React", "OpenWeather API", "Chart.js", "CSS3"],
-    link: "#",
-    image: "weather.jpg",
+    link: "https://ahmed-weather-app.netlify.app",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
 ];
 
@@ -86,12 +87,12 @@ export function Projects() {
                     ))}
                   </div>
                   
-                  <div className="bg-muted/50 rounded-md aspect-video flex items-center justify-center text-muted-foreground">
-                    {project.image ? (
-                      <div className="w-full h-full bg-secondary/30 rounded-md flex items-center justify-center">
-                        Project Screenshot
-                      </div>
-                    ) : null}
+                  <div className="bg-muted/30 rounded-md aspect-video flex items-center justify-center overflow-hidden">
+                    <img 
+                      src={project.image} 
+                      alt={`${project.title} screenshot`}
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
                   </div>
                 </CardContent>
                 <CardFooter>
@@ -99,10 +100,11 @@ export function Projects() {
                     variant={activeIndex === index ? "default" : "outline"}
                     size="sm" 
                     asChild
-                    className="transition-all duration-300"
+                    className="transition-all duration-300 flex items-center gap-2"
                   >
                     <a href={project.link} target="_blank" rel="noopener noreferrer">
                       View Project
+                      <ExternalLink className="h-4 w-4" />
                     </a>
                   </Button>
                 </CardFooter>
