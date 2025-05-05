@@ -31,18 +31,19 @@ const projects: Project[] = [
     isFrontendOnly: true,
   },
   {
-    title: "Real Estate Listing App",
-    description: "A property listing website with search filters, maps integration, and user accounts.",
-    technologies: ["Next.js", "Firebase", "Google Maps API", "Tailwind CSS"],
-    link: "https://ahmed-realestate.vercel.app",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    title: "Restaurant Project",
+    description: "An elegant restaurant website with menu presentation, reservation system, and responsive design.",
+    technologies: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
+    link: "https://ahmedhany102.github.io/Restaurant/",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    isFrontendOnly: true,
   },
   {
     title: "Weather Dashboard",
-    description: "A weather application displaying current conditions and forecasts using external API data.",
+    description: "An interactive weather application that fetches real-time data from OpenWeather API, displaying current conditions and forecasts.",
     technologies: ["React", "OpenWeather API", "Chart.js", "CSS3"],
-    link: "https://ahmed-weather-app.netlify.app",
-    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    link: "https://openweathermap.org/",
+    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
 ];
 

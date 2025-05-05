@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,53 +18,53 @@ type BlogPost = {
 
 const blogPosts: BlogPost[] = [
   {
-    title: "Understanding React Hooks: A Comprehensive Guide",
-    excerpt: "React Hooks have revolutionized how we write React components. Learn how to use useState, useEffect, useContext and more to build better applications.",
-    date: "April 25, 2023",
-    readTime: "8 min read",
-    link: "https://reactjs.org/docs/hooks-intro.html",
-    category: "React",
+    title: "A Complete Guide to Flexbox",
+    excerpt: "Our comprehensive guide to CSS flexbox layout. This complete guide explains everything about flexbox, focusing on all the properties for both the parent and the children.",
+    date: "May 12, 2023",
+    readTime: "15 min read",
+    link: "https://css-tricks.com/snippets/css/a-guide-to-flexbox/",
+    category: "CSS",
     progress: 75,
   },
   {
-    title: "Building a RESTful API with Node.js and Express",
-    excerpt: "Learn how to create a fully-featured REST API from scratch using Node.js, Express, and MongoDB. Includes authentication, validation, and error handling.",
-    date: "March 30, 2023",
-    readTime: "12 min read",
-    link: "https://www.freecodecamp.org/news/build-a-restful-api-with-node-js-and-express-js/",
-    category: "Node.js",
+    title: "You Don't Know JS: Scope & Closures",
+    excerpt: "This book dives deep into how the JavaScript engine works under the hood, from basic scope, lexical scope, functional scope, and block scope, to closures and the module pattern.",
+    date: "April 27, 2023",
+    readTime: "25 min read",
+    link: "https://github.com/getify/You-Dont-Know-JS/tree/2nd-ed/scope-closures",
+    category: "JavaScript",
     progress: 90,
   },
   {
-    title: "The Complete Guide to Modern Web Performance Optimization",
-    excerpt: "Discover the latest techniques for improving web performance including code splitting, lazy loading, caching strategies, and server-side optimizations.",
-    date: "March 12, 2023",
-    readTime: "15 min read",
-    link: "https://web.dev/learn/performance/",
-    category: "Performance",
+    title: "Modern React with Redux [2023 Update]",
+    excerpt: "Learn how to build complex and sophisticated user interfaces by mastering React and Redux. This guide covers both fundamental React concepts and advanced Redux patterns.",
+    date: "March 18, 2023",
+    readTime: "30 min read",
+    link: "https://www.udemy.com/course/react-redux/",
+    category: "React",
     progress: 60,
   },
   {
-    title: "CSS Grid Layout: The Complete Developer's Guide",
-    excerpt: "Master CSS Grid with practical examples and learn how to create responsive layouts with this powerful tool. Includes tips for browser compatibility.",
-    date: "February 3, 2023",
-    readTime: "10 min read",
-    link: "https://css-tricks.com/snippets/css/complete-guide-grid/",
-    category: "CSS",
+    title: "The Ultimate Guide to Web Performance",
+    excerpt: "Discover techniques and best practices to improve the loading speed and runtime performance of your web applications, ensuring a smooth user experience.",
+    date: "February 21, 2023",
+    readTime: "20 min read",
+    link: "https://web.dev/fast/",
+    category: "Performance",
     progress: 85,
   },
   {
-    title: "TypeScript Best Practices for React Applications",
-    excerpt: "Improve your React codebase with TypeScript. Learn about proper typing, generics, interfaces, and how to avoid common pitfalls in TypeScript React projects.",
-    date: "January 18, 2023",
-    readTime: "11 min read",
-    link: "https://www.typescriptlang.org/docs/handbook/react.html",
+    title: "TypeScript Handbook: From Novice to Expert",
+    excerpt: "A comprehensive guide to TypeScript, covering types, interfaces, generics, decorators, and how to effectively integrate TypeScript into your projects.",
+    date: "January 15, 2023",
+    readTime: "22 min read",
+    link: "https://www.typescriptlang.org/docs/handbook/intro.html",
     category: "TypeScript",
     progress: 70,
   },
 ];
 
-const categories = ["All", "React", "Node.js", "Performance", "CSS", "TypeScript"];
+const categories = ["All", "React", "JavaScript", "TypeScript", "CSS", "Performance"];
 
 export function Blog() {
   const [searchTerm, setSearchTerm] = useState("");
