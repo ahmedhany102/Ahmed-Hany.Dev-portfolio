@@ -7,23 +7,12 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
   const isMobile = useIsMobile();
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
-      
-      // Determine active section based on scroll position
-      const sections = ['home', 'about', 'skills', 'projects', 'blog', 'contact'];
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
-        if (element && window.scrollY >= element.offsetTop - 100) {
-          setActiveSection(section);
-          break;
-        }
-      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -36,35 +25,29 @@ export function Navbar() {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  const scrollToSection = (sectionId: string, isMobile = false) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-      if (isMobile) {
-        setMobileMenuOpen(false);
-      }
+  const closeMobileMenu = () => {
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
     }
   };
 
-  const NavLink = ({ to, label, onClick }: { to: string; label: string; onClick?: () => void }) => {
-    const isActive = activeSection === to.replace('#', '');
+  const NavLink = ({ to, label }: { to: string; label: string }) => {
+    const isActive = location.pathname === to;
     
     return (
-      <button
+      <Link
+        to={to}
         className={`relative inline-block transition-colors duration-300 after:content-[''] after:absolute after:w-full after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
           isActive 
             ? "text-primary after:scale-x-100 after:origin-bottom-left" 
             : "text-foreground hover:text-primary after:scale-x-0"
         }`}
-        onClick={onClick}
+        onClick={closeMobileMenu}
       >
         {label}
-      </button>
+      </Link>
     );
   };
-
-  // Check if we're on the homepage
-  const isHomePage = location.pathname === '/';
 
   return (
     <header
@@ -73,16 +56,9 @@ export function Navbar() {
       }`}
     >
       <div className="container-custom flex justify-between items-center">
-        {/* Use the home path directly without Link when on homepage */}
-        {isHomePage ? (
-          <a href="#" className="text-xl font-semibold">
-            Ahmed Hany
-          </a>
-        ) : (
-          <Link to="/" className="text-xl font-semibold">
-            Ahmed Hany
-          </Link>
-        )}
+        <Link to="/" className="text-xl font-semibold" onClick={closeMobileMenu}>
+          Ahmed Hany
+        </Link>
 
         {/* Mobile Menu Button */}
         {isMobile && (
@@ -114,11 +90,11 @@ export function Navbar() {
         {/* Desktop Navigation */}
         {!isMobile && (
           <nav className="flex items-center space-x-8">
-            <NavLink to="#about" label="About" onClick={() => scrollToSection('about')} />
-            <NavLink to="#skills" label="Skills" onClick={() => scrollToSection('skills')} />
-            <NavLink to="#projects" label="Projects" onClick={() => scrollToSection('projects')} />
-            <NavLink to="#blog" label="Blog" onClick={() => scrollToSection('blog')} />
-            <NavLink to="#contact" label="Contact" onClick={() => scrollToSection('contact')} />
+            <NavLink to="/about" label="About" />
+            <NavLink to="/skills" label="Skills" />
+            <NavLink to="/projects" label="Projects" />
+            <NavLink to="/blog" label="Blog" />
+            <NavLink to="/contact" label="Contact" />
             <ThemeToggle />
           </nav>
         )}
@@ -126,11 +102,11 @@ export function Navbar() {
         {/* Mobile Navigation */}
         {isMobile && mobileMenuOpen && (
           <nav className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-lg shadow-md px-4 py-6 flex flex-col space-y-6 animate-fade-in">
-            <NavLink to="#about" label="About" onClick={() => scrollToSection('about', true)} />
-            <NavLink to="#skills" label="Skills" onClick={() => scrollToSection('skills', true)} />
-            <NavLink to="#projects" label="Projects" onClick={() => scrollToSection('projects', true)} />
-            <NavLink to="#blog" label="Blog" onClick={() => scrollToSection('blog', true)} />
-            <NavLink to="#contact" label="Contact" onClick={() => scrollToSection('contact', true)} />
+            <NavLink to="/about" label="About" />
+            <NavLink to="/skills" label="Skills" />
+            <NavLink to="/projects" label="Projects" />
+            <NavLink to="/blog" label="Blog" />
+            <NavLink to="/contact" label="Contact" />
             <div className="flex justify-center">
               <ThemeToggle />
             </div>
@@ -146,4 +122,4 @@ export function Navbar() {
       </div>
     </header>
   );
-}
+};
