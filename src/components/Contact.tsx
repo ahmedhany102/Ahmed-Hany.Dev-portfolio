@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { sonner as sonnerToast } from "sonner";
+import { toast as sonnerToast } from "sonner";
 import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check, MessageSquare } from "lucide-react";
 import emailjs from '@emailjs/browser';
 import { useEmailStatus } from "@/hooks/use-email-status";
