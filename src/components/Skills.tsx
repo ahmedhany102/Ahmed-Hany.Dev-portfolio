@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
@@ -17,16 +18,16 @@ type Skill = {
 const skillsData: Skill[] = [
   { name: "HTML & CSS", level: 100, category: "frontend", color: "bg-orange-500", description: "Semantic HTML5 and modern CSS including Flexbox and Grid" },
   { name: "JavaScript", level: 50, category: "frontend", color: "bg-yellow-500", description: "ES6+, async/await, promises, and functional programming", status: "Learning" },
-  { name: "React", level: 90, category: "frontend", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks", comingSoon: true },
+  { name: "React", level: 0, category: "frontend", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks", comingSoon: true },
   { name: "TypeScript", level: 80, category: "frontend", color: "bg-blue-600", description: "Type-safe code with interfaces, generics, and utility types" },
-  { name: "Tailwind CSS", level: 85, category: "frontend", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development" },
-  { name: "Next.js", level: 80, category: "frontend", color: "bg-black", description: "React framework for production with SSR and static site generation", comingSoon: true },
+  { name: "Tailwind CSS", level: 0, category: "frontend", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development", comingSoon: true },
+  { name: "Next.js", level: 0, category: "frontend", color: "bg-black", description: "React framework for production with SSR and static site generation", comingSoon: true },
   { name: "C++", level: 70, category: "backend", color: "bg-blue-800", description: "Problem solving and strengthening programming logic" },
   { name: "C#", level: 70, category: "backend", color: "bg-purple-700", description: "Building applications with C# fundamentals" },
   { name: "OOP C#", level: 65, category: "backend", color: "bg-purple-800", description: "Object-oriented programming principles with C#" },
   { name: "GitHub", level: 80, category: "tools", color: "bg-gray-800", description: "Version control and collaborative development" },
   { name: "Vibe Coding", level: 90, category: "tools", color: "bg-pink-600", description: "Creating aesthetically pleasing and functional interfaces" },
-  { name: "Node.js", level: 45, category: "backend", color: "bg-green-600", description: "Server-side JavaScript runtime environment", comingSoon: true },
+  { name: "Node.js", level: 0, category: "backend", color: "bg-green-600", description: "Server-side JavaScript runtime environment", comingSoon: true },
 ];
 
 export function Skills() {
