@@ -7,50 +7,39 @@ export function Hero() {
   return (
     <section id="home" className="section bg-gradient-to-b from-background to-muted/20 flex items-center relative min-h-screen">
       <div className="container-custom z-10">
-        <div className="max-w-3xl">
+        <div className="max-w-3xl text-center md:text-left">
           <motion.h1 
             className="text-4xl md:text-6xl font-bold mb-4"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Ahmed Hany
+            Welcome to My Portfolio
           </motion.h1>
           
-          <motion.h2 
-            className="text-2xl md:text-4xl font-medium text-primary mb-6"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Junior Frontend Developer
-          </motion.h2>
-          
           <motion.p 
-            className="text-lg text-muted-foreground mb-8"
+            className="text-xl md:text-2xl font-medium mb-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
-            I build beautiful, responsive websites and applications with modern web technologies. 
-            As a junior developer on a team, I'm constantly learning and improving my skills to create 
-            better digital experiences.
+            Discover my journey as a frontend developer
           </motion.p>
           
           <motion.div 
-            className="flex flex-wrap gap-4"
+            className="flex flex-wrap gap-4 justify-center md:justify-start"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
             <Button asChild size="lg">
-              <Link to="/projects">
-                View My Work
+              <Link to="/about">
+                About Me
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link to="/contact">
-                Contact Me
+              <Link to="/skills">
+                My Skills
               </Link>
             </Button>
           </motion.div>

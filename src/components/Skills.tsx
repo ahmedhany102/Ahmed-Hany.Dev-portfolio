@@ -3,7 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
 import { Progress } from "@/components/ui/progress";
-import { ChartBar } from "lucide-react";
+import { ChartBar, Database, Server, Code, Cog } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type Skill = {
   name: string;
@@ -34,8 +36,11 @@ export function Skills() {
   const [activeCategory, setActiveCategory] = useState<'all' | 'frontend' | 'backend' | 'tools'>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [animateSkills, setAnimateSkills] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const skillsRef = useRef<HTMLDivElement>(null);
+  const futureSkillsRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(skillsRef, { once: false, amount: 0.2 });
+  const isFutureInView = useInView(futureSkillsRef, { once: false, amount: 0.2 });
   
   useEffect(() => {
     if (isInView) {
@@ -65,125 +70,247 @@ export function Skills() {
   };
 
   return (
-    <section id="skills" className="section bg-background/50 backdrop-blur-sm overflow-hidden">
-      <div className="container-custom" ref={skillsRef}>
-        <motion.h2 
-          className="text-3xl md:text-4xl font-bold mb-6 text-center"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : -20 }}
-          transition={{ duration: 0.6 }}
-        >
-          My Skills
-        </motion.h2>
-        
-        <motion.p 
-          className="text-lg text-muted-foreground text-center mb-8 max-w-2xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isInView ? 1 : 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          As a junior frontend developer in a development team, I'm constantly improving my skills and learning new technologies to grow professionally.
-        </motion.p>
-
-        <motion.div 
-          className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <div className="flex flex-wrap justify-center md:justify-start gap-2">
-            {categories.map((category) => (
-              <Button
-                key={category.id}
-                variant={activeCategory === category.id ? "default" : "outline"}
-                onClick={() => setActiveCategory(category.id as any)}
-                className="transition-all duration-300"
-              >
-                {category.label}
-              </Button>
-            ))}
-          </div>
-          
-          <div className="relative mt-4 md:mt-0">
-            <input
-              type="text"
-              placeholder="Search skills..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="px-4 py-2 pr-10 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 w-full max-w-xs"
-            />
-            <svg 
-              className="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" 
-              fill="none" 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth="2" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-        </motion.div>
-
-        {filteredSkills.length === 0 && (
-          <motion.div 
-            className="text-center py-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+    <>
+      <section id="skills" className="section bg-background/50 backdrop-blur-sm overflow-hidden">
+        <div className="container-custom" ref={skillsRef}>
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold mb-6 text-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : -20 }}
+            transition={{ duration: 0.6 }}
           >
-            <p className="text-muted-foreground text-lg">No skills match your search criteria.</p>
-            <Button 
-              variant="outline" 
-              onClick={() => {setSearchTerm(''); setActiveCategory('all');}}
-              className="mt-4"
-            >
-              Clear filters
-            </Button>
-          </motion.div>
-        )}
+            My Skills
+          </motion.h2>
+          
+          <motion.p 
+            className="text-lg text-muted-foreground text-center mb-8 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isInView ? 1 : 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            As a junior frontend developer in a development team, I'm constantly improving my skills and learning new technologies to grow professionally.
+          </motion.p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredSkills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              className="bg-card border rounded-lg p-4 hover:shadow-md transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: animateSkills ? 1 : 0, y: animateSkills ? 0 : 20 }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-              whileHover={{ scale: 1.02 }}
+          <motion.div 
+            className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <div className="flex flex-wrap justify-center md:justify-start gap-2">
+              {categories.map((category) => (
+                <Button
+                  key={category.id}
+                  variant={activeCategory === category.id ? "default" : "outline"}
+                  onClick={() => setActiveCategory(category.id as any)}
+                  className="transition-all duration-300"
+                >
+                  {category.label}
+                </Button>
+              ))}
+            </div>
+            
+            <div className="relative mt-4 md:mt-0">
+              <input
+                type="text"
+                placeholder="Search skills..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="px-4 py-2 pr-10 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 w-full max-w-xs"
+              />
+              <svg 
+                className="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" 
+                fill="none" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth="2" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </motion.div>
+
+          {filteredSkills.length === 0 && (
+            <motion.div 
+              className="text-center py-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
             >
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="text-lg font-medium">{skill.name}</h3>
-                <div className="flex items-center gap-2">
-                  {skill.status && (
-                    <span className="px-2 py-1 rounded text-xs bg-amber-500 text-white">
-                      {skill.status}
-                    </span>
-                  )}
-                  {skill.comingSoon && (
-                    <span className="px-2 py-1 rounded text-xs bg-purple-500 text-white">
-                      Coming Soon
-                    </span>
-                  )}
-                  <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
-                    {Math.round(skill.level)}%
+              <p className="text-muted-foreground text-lg">No skills match your search criteria.</p>
+              <Button 
+                variant="outline" 
+                onClick={() => {setSearchTerm(''); setActiveCategory('all');}}
+                className="mt-4"
+              >
+                Clear filters
+              </Button>
+            </motion.div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredSkills.map((skill, index) => (
+              <motion.div
+                key={skill.name}
+                className="bg-card border rounded-lg p-4 hover:shadow-md transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: animateSkills ? 1 : 0, y: animateSkills ? 0 : 20 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-lg font-medium">{skill.name}</h3>
+                  <div className="flex items-center gap-2">
+                    {skill.status && (
+                      <span className="px-2 py-1 rounded text-xs bg-amber-500 text-white">
+                        {skill.status}
+                      </span>
+                    )}
+                    {skill.comingSoon && (
+                      <span className="px-2 py-1 rounded text-xs bg-purple-500 text-white">
+                        Coming Soon
+                      </span>
+                    )}
+                    <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
+                      {Math.round(skill.level)}%
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="mb-4">
-                <Progress value={skill.level} className="h-2" />
-              </div>
-              
-              <p className="text-sm text-muted-foreground">
-                {skill.description}
-              </p>
-            </motion.div>
-          ))}
+                
+                <div className="mb-4">
+                  <Progress value={skill.level} className="h-2" />
+                </div>
+                
+                <p className="text-sm text-muted-foreground">
+                  {skill.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section id="future-skills" className="section bg-muted/30" ref={futureSkillsRef}>
+        <div className="container-custom">
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold mb-6"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: isFutureInView ? 1 : 0, y: isFutureInView ? 0 : -20 }}
+            transition={{ duration: 0.6 }}
+          >
+            Future Skills
+          </motion.h2>
+
+          <motion.p 
+            className="text-lg text-muted-foreground mb-8 max-w-3xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isFutureInView ? 1 : 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            While I'm currently a frontend developer, I'm actively learning backend technologies 
+            to become a full-stack developer. Here's my learning path and future goals.
+          </motion.p>
+          
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isFutureInView ? 1 : 0, y: isFutureInView ? 0 : 20 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Cog className="h-5 w-5" />
+                  Programming Foundations
+                </CardTitle>
+                <CardDescription>
+                  Building strong fundamentals
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  I'm learning C++ to improve my problem-solving skills and strengthen my programming logic. 
+                  Additionally, I'm studying C# and object-oriented programming principles to build a solid 
+                  foundation for backend development.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="h-5 w-5" />
+                  Future Learning
+                </CardTitle>
+                <CardDescription>
+                  Expanding my knowledge
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  My learning roadmap includes data structures, databases, and ASP.NET for building robust 
+                  web applications. These skills will allow me to create more complex and scalable projects 
+                  in the future.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Server className="h-5 w-5" />
+                  Backend Technologies
+                </CardTitle>
+                <CardDescription>
+                  Modern web development
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  I plan to learn Node.js as my primary backend technology, which will complement my 
+                  existing frontend skills and enable me to develop full-stack JavaScript applications
+                  with seamless integration between client and server.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isFutureInView ? 1 : 0, y: isFutureInView ? 0 : 20 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <Button 
+              onClick={() => setShowInfo(!showInfo)} 
+              className="mb-6"
+            >
+              {showInfo ? "Hide Journey Details" : "Show Journey Details"}
+            </Button>
+            
+            {showInfo && (
+              <Alert className="mb-8">
+                <AlertTitle>My Full-Stack Development Path</AlertTitle>
+                <AlertDescription>
+                  <p className="mb-2">
+                    My journey to becoming a full-stack developer follows these steps:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-1 text-sm">
+                    <li>Mastering C++ for algorithmic problem-solving and logic</li>
+                    <li>Learning C# and object-oriented programming principles</li>
+                    <li>Studying data structures and algorithms for efficient code</li>
+                    <li>Exploring database concepts (SQL and NoSQL)</li>
+                    <li>Learning ASP.NET for enterprise-level applications</li>
+                    <li>Developing with Node.js for JavaScript-based backend services</li>
+                    <li>Building larger, more complex full-stack projects</li>
+                  </ul>
+                </AlertDescription>
+              </Alert>
+            )}
+          </motion.div>
+        </div>
+      </section>
+    </>
   );
 }
