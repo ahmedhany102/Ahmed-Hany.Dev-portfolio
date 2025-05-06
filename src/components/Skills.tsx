@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
@@ -18,10 +17,9 @@ type Skill = {
 const skillsData: Skill[] = [
   { name: "HTML & CSS", level: 100, category: "frontend", color: "bg-orange-500", description: "Semantic HTML5 and modern CSS including Flexbox and Grid" },
   { name: "JavaScript", level: 50, category: "frontend", color: "bg-yellow-500", description: "ES6+, async/await, promises, and functional programming", status: "Learning" },
-  { name: "React", level: 90, category: "frontend", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks" },
+  { name: "React", level: 90, category: "frontend", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks", comingSoon: true },
   { name: "TypeScript", level: 80, category: "frontend", color: "bg-blue-600", description: "Type-safe code with interfaces, generics, and utility types" },
   { name: "Tailwind CSS", level: 85, category: "frontend", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development" },
-  { name: "Redux", level: 75, category: "frontend", color: "bg-purple-600", description: "State management with Redux and Redux Toolkit" },
   { name: "Next.js", level: 80, category: "frontend", color: "bg-black", description: "React framework for production with SSR and static site generation", comingSoon: true },
   { name: "C++", level: 70, category: "backend", color: "bg-blue-800", description: "Problem solving and strengthening programming logic" },
   { name: "C#", level: 70, category: "backend", color: "bg-purple-700", description: "Building applications with C# fundamentals" },

@@ -22,8 +22,8 @@ export function About() {
             </p>
             <p className="text-lg">
               Currently, I'm a frontend team member in a development team where I'm constantly 
-              improving my skills and gaining valuable real-world experience. I enjoy 
-              building web solutions that provide exceptional user experiences.
+              improving my skills and gaining valuable real-world experience. As a junior developer,
+              I collaborate with senior team members to build and maintain responsive web interfaces.
             </p>
             <p className="text-lg">
               When I'm not coding, you can find me exploring new technologies, contributing 
@@ -55,9 +55,9 @@ export function About() {
                 <CardContent className="p-6">
                   <h4 className="font-medium mb-2">Work Experience</h4>
                   <p className="text-sm text-muted-foreground">
-                    I'm currently working as a frontend developer in a development team, 
+                    I'm currently working as a junior frontend developer in a development team, 
                     where I'm building and maintaining responsive, user-friendly interfaces 
-                    and continuously expanding my technical expertise.
+                    and continuously expanding my technical expertise under the guidance of senior developers.
                   </p>
                 </CardContent>
               </Card>
@@ -67,7 +67,8 @@ export function About() {
                   <h4 className="font-medium mb-2">Philosophy</h4>
                   <p className="text-sm text-muted-foreground">
                     I believe in creating clean, maintainable code and user-friendly interfaces. 
-                    Every project is an opportunity to deliver exceptional value and exceed expectations.
+                    As a junior developer, I value continuous learning and collaboration to improve
+                    my skills and deliver exceptional value in every project.
                   </p>
                 </CardContent>
               </Card>
