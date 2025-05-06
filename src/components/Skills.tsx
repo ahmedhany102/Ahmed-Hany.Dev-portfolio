@@ -1,42 +1,43 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Progress } from "@/components/ui/progress";
 import { ChartBar, Database, Server, Code, Cog } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 type Skill = {
   name: string;
   level: number;
-  category: 'frontend' | 'backend' | 'tools';
+  category: 'frontend' | 'backend' | 'tools' | 'coming-soon';
   color: string;
   description: string;
   status?: string;
-  comingSoon?: boolean;
 };
 
 const skillsData: Skill[] = [
   { name: "HTML & CSS", level: 100, category: "frontend", color: "bg-orange-500", description: "Semantic HTML5 and modern CSS including Flexbox and Grid" },
   { name: "JavaScript", level: 50, category: "frontend", color: "bg-yellow-500", description: "ES6+, async/await, promises, and functional programming", status: "Learning" },
-  { name: "React", level: 0, category: "frontend", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks", comingSoon: true },
+  { name: "React", level: 0, category: "coming-soon", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks" },
   { name: "TypeScript", level: 80, category: "frontend", color: "bg-blue-600", description: "Type-safe code with interfaces, generics, and utility types" },
-  { name: "Tailwind CSS", level: 0, category: "frontend", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development", comingSoon: true },
-  { name: "Next.js", level: 0, category: "frontend", color: "bg-black", description: "React framework for production with SSR and static site generation", comingSoon: true },
+  { name: "Tailwind CSS", level: 0, category: "coming-soon", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development" },
+  { name: "Next.js", level: 0, category: "coming-soon", color: "bg-black", description: "React framework for production with SSR and static site generation" },
   { name: "C++", level: 70, category: "backend", color: "bg-blue-800", description: "Problem solving and strengthening programming logic" },
   { name: "C#", level: 70, category: "backend", color: "bg-purple-700", description: "Building applications with C# fundamentals" },
   { name: "OOP C#", level: 65, category: "backend", color: "bg-purple-800", description: "Object-oriented programming principles with C#" },
   { name: "GitHub", level: 80, category: "tools", color: "bg-gray-800", description: "Version control and collaborative development" },
   { name: "Vibe Coding", level: 90, category: "tools", color: "bg-pink-600", description: "Creating aesthetically pleasing and functional interfaces" },
-  { name: "Node.js", level: 0, category: "backend", color: "bg-green-600", description: "Server-side JavaScript runtime environment", comingSoon: true },
+  { name: "Node.js", level: 0, category: "coming-soon", color: "bg-green-600", description: "Server-side JavaScript runtime environment" },
 ];
 
 export function Skills() {
-  const [activeCategory, setActiveCategory] = useState<'all' | 'frontend' | 'backend' | 'tools'>('all');
+  const [activeCategory, setActiveCategory] = useState<'all' | 'frontend' | 'backend' | 'tools' | 'coming-soon'>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [animateSkills, setAnimateSkills] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const futureSkillsRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(skillsRef, { once: false, amount: 0.2 });
@@ -63,10 +64,15 @@ export function Skills() {
     { id: 'frontend', label: 'Frontend' },
     { id: 'backend', label: 'Backend' },
     { id: 'tools', label: 'Tools & Others' },
+    { id: 'coming-soon', label: 'Coming Soon' },
   ];
   
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  };
+
+  const handleSkillClick = (skill: Skill) => {
+    setSelectedSkill(selectedSkill?.name === skill.name ? null : skill);
   };
 
   return (
@@ -97,20 +103,22 @@ export function Skills() {
             animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <div className="flex flex-wrap justify-center md:justify-start gap-2">
-              {categories.map((category) => (
-                <Button
-                  key={category.id}
-                  variant={activeCategory === category.id ? "default" : "outline"}
-                  onClick={() => setActiveCategory(category.id as any)}
-                  className="transition-all duration-300"
-                >
-                  {category.label}
-                </Button>
-              ))}
+            <div className="flex justify-center w-full md:w-auto mb-4 md:mb-0">
+              <ToggleGroup type="single" value={activeCategory} onValueChange={(value) => value && setActiveCategory(value as any)}>
+                {categories.map((category) => (
+                  <ToggleGroupItem 
+                    key={category.id} 
+                    value={category.id}
+                    className="transition-all duration-300"
+                    variant="outline"
+                  >
+                    {category.label}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
             </div>
             
-            <div className="relative mt-4 md:mt-0">
+            <div className="relative w-full md:w-auto">
               <input
                 type="text"
                 placeholder="Search skills..."
@@ -151,43 +159,65 @@ export function Skills() {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredSkills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                className="bg-card border rounded-lg p-4 hover:shadow-md transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: animateSkills ? 1 : 0, y: animateSkills ? 0 : 20 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="text-lg font-medium">{skill.name}</h3>
-                  <div className="flex items-center gap-2">
-                    {skill.status && (
-                      <span className="px-2 py-1 rounded text-xs bg-amber-500 text-white">
-                        {skill.status}
-                      </span>
-                    )}
-                    {skill.comingSoon && (
-                      <span className="px-2 py-1 rounded text-xs bg-purple-500 text-white">
-                        Coming Soon
-                      </span>
-                    )}
-                    <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
-                      {Math.round(skill.level)}%
+            <AnimatePresence>
+              {filteredSkills.map((skill, index) => (
+                <motion.div
+                  key={skill.name}
+                  className={`bg-card border rounded-lg p-4 hover:shadow-md transition-all duration-300 cursor-pointer ${selectedSkill?.name === skill.name ? 'ring-2 ring-primary' : ''}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: animateSkills ? 1 : 0, y: animateSkills ? 0 : 20 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => handleSkillClick(skill)}
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-lg font-medium">{skill.name}</h3>
+                    <div className="flex items-center gap-2">
+                      {skill.status && (
+                        <span className="px-2 py-1 rounded text-xs bg-amber-500 text-white">
+                          {skill.status}
+                        </span>
+                      )}
+                      {skill.category === "coming-soon" && (
+                        <span className="px-2 py-1 rounded text-xs bg-purple-500 text-white">
+                          Coming Soon
+                        </span>
+                      )}
+                      <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
+                        {Math.round(skill.level)}%
+                      </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="mb-4">
-                  <Progress value={skill.level} className="h-2" />
-                </div>
-                
-                <p className="text-sm text-muted-foreground">
-                  {skill.description}
-                </p>
-              </motion.div>
-            ))}
+                  
+                  <div className="mb-4">
+                    <Progress value={skill.level} className="h-2" />
+                  </div>
+                  
+                  <p className="text-sm text-muted-foreground">
+                    {skill.description}
+                  </p>
+
+                  <AnimatePresence>
+                    {selectedSkill?.name === skill.name && (
+                      <motion.div 
+                        className="mt-4 pt-4 border-t"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <p className="text-sm">
+                          {skill.category === 'coming-soon' 
+                            ? `${skill.name} is on my learning roadmap. I'm planning to start learning it soon to add to my skillset.` 
+                            : `I've been working with ${skill.name} for ${skill.level > 80 ? 'a while' : 'some time'} now. Click anywhere on this card to close this detail.`}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </div>
       </section>
