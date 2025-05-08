@@ -184,7 +184,7 @@ export function Contact() {
                 <h3 className="text-xl font-medium mb-3">Email</h3>
                 <a href="mailto:ahmedhanyseif97@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
                   <Mail className="w-5 h-5" />
-                  <span>ahmedhanyseif97@gmail.com</span>
+                  <span>ahmedseifeldin97@gmail.com</span>
                 </a>
               </div>
               
