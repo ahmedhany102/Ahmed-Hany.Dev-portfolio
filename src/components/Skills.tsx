@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView, AnimatePresence } from "framer-motion";
@@ -5,7 +6,8 @@ import { Progress } from "@/components/ui/progress";
 import { ChartBar, Database, Server, Code, Cog } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { SkillsFilter } from "@/components/SkillsFilter";
+import { toast } from "sonner";
 
 type Skill = {
   name: string;
@@ -29,12 +31,15 @@ const skillsData: Skill[] = [
   { name: "GitHub", level: 80, category: "tools", color: "bg-gray-800", description: "Version control and collaborative development" },
   { name: "Vibe Coding", level: 90, category: "tools", color: "bg-pink-600", description: "Creating aesthetically pleasing and functional interfaces" },
   { name: "Node.js", level: 0, category: "coming-soon", color: "bg-green-600", description: "Server-side JavaScript runtime environment" },
+  { name: "Framer Motion", level: 40, category: "frontend", color: "bg-purple-500", description: "Animation library for React to create fluid UI motion", status: "Learning" },
+  { name: "React Router", level: 65, category: "frontend", color: "bg-red-500", description: "Declarative routing for React applications" },
+  { name: "Webpack", level: 0, category: "coming-soon", color: "bg-blue-400", description: "Module bundler for JavaScript applications" },
 ];
 
 export function Skills() {
   const [activeCategory, setActiveCategory] = useState<'all' | 'frontend' | 'backend' | 'tools' | 'coming-soon'>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [animateSkills, setAnimateSkills] = useState(true); // Changed to true by default
+  const [animateSkills, setAnimateSkills] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
@@ -43,9 +48,10 @@ export function Skills() {
   const isFutureInView = useInView(futureSkillsRef, { once: false, amount: 0.2 });
   
   useEffect(() => {
-    // Always keep skills animated
-    setAnimateSkills(true);
-  }, [isInView, activeCategory]); // Added activeCategory as dependency
+    if (isInView) {
+      setAnimateSkills(true);
+    }
+  }, [isInView]);
 
   const filteredSkills = skillsData.filter(
     (skill) => {
@@ -57,20 +63,40 @@ export function Skills() {
     }
   );
 
-  const categories = [
-    { id: 'all', label: 'All Skills' },
-    { id: 'frontend', label: 'Frontend' },
-    { id: 'backend', label: 'Backend' },
-    { id: 'tools', label: 'Tools & Others' },
-    { id: 'coming-soon', label: 'Coming Soon' },
-  ];
-  
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
   const handleSkillClick = (skill: Skill) => {
     setSelectedSkill(selectedSkill?.name === skill.name ? null : skill);
+    if (selectedSkill?.name !== skill.name) {
+      toast(`${skill.name} selected`, {
+        description: skill.category === 'coming-soon' ? 'On my learning roadmap' : `Current proficiency: ${skill.level}%`,
+        duration: 2000,
+        position: 'bottom-center',
+      });
+    }
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setActiveCategory('all');
+    toast.info("Filters cleared", {
+      duration: 1500,
+    });
+  };
+
+  // Card container animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05
+      }
+    }
+  };
+
+  // Individual card animation variants
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } }
   };
 
   return (
@@ -95,48 +121,13 @@ export function Skills() {
             As a junior frontend developer in a development team, I'm constantly improving my skills and learning new technologies to grow professionally.
           </motion.p>
 
-          <motion.div 
-            className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <div className="flex justify-center w-full md:w-auto mb-4 md:mb-0">
-              <ToggleGroup type="single" value={activeCategory} onValueChange={(value) => value && setActiveCategory(value as any)}>
-                {categories.map((category) => (
-                  <ToggleGroupItem 
-                    key={category.id} 
-                    value={category.id}
-                    className="transition-all duration-300"
-                    variant="outline"
-                  >
-                    {category.label}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
-            </div>
-            
-            <div className="relative w-full md:w-auto">
-              <input
-                type="text"
-                placeholder="Search skills..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="px-4 py-2 pr-10 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 w-full max-w-xs"
-              />
-              <svg 
-                className="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" 
-                fill="none" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-          </motion.div>
+          <SkillsFilter 
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            onClearFilters={clearFilters}
+          />
 
           {filteredSkills.length === 0 && (
             <motion.div 
@@ -148,7 +139,7 @@ export function Skills() {
               <p className="text-muted-foreground text-lg">No skills match your search criteria.</p>
               <Button 
                 variant="outline" 
-                onClick={() => {setSearchTerm(''); setActiveCategory('all');}}
+                onClick={clearFilters}
                 className="mt-4"
               >
                 Clear filters
@@ -156,14 +147,17 @@ export function Skills() {
             </motion.div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {filteredSkills.map((skill, index) => (
               <motion.div
                 key={skill.name}
                 className={`bg-card border rounded-lg p-4 hover:shadow-md transition-all duration-300 cursor-pointer ${selectedSkill?.name === skill.name ? 'ring-2 ring-primary' : ''}`}
-                initial={{ opacity: 1, y: 0 }} // Changed to always be visible initially
-                animate={{ opacity: 1, y: 0 }} // Always visible
-                transition={{ duration: 0.3, delay: index * 0.05 }}
+                variants={cardVariants}
                 whileHover={{ scale: 1.02 }}
                 onClick={() => handleSkillClick(skill)}
               >
@@ -213,7 +207,7 @@ export function Skills() {
                 </AnimatePresence>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -244,7 +238,7 @@ export function Skills() {
             animate={{ opacity: isFutureInView ? 1 : 0, y: isFutureInView ? 0 : 20 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <Card>
+            <Card className="hover:shadow-md transition-all duration-300">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Cog className="h-5 w-5" />
@@ -263,7 +257,7 @@ export function Skills() {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="hover:shadow-md transition-all duration-300">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Database className="h-5 w-5" />
@@ -282,7 +276,7 @@ export function Skills() {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="hover:shadow-md transition-all duration-300">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Server className="h-5 w-5" />
@@ -308,31 +302,48 @@ export function Skills() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <Button 
-              onClick={() => setShowInfo(!showInfo)} 
+              onClick={() => {
+                setShowInfo(!showInfo);
+                if (!showInfo) {
+                  toast.info("Journey details expanded", {
+                    duration: 1500,
+                  });
+                }
+              }} 
               className="mb-6"
+              variant="secondary"
             >
               {showInfo ? "Hide Journey Details" : "Show Journey Details"}
             </Button>
             
-            {showInfo && (
-              <Alert className="mb-8">
-                <AlertTitle>My Full-Stack Development Path</AlertTitle>
-                <AlertDescription>
-                  <p className="mb-2">
-                    My journey to becoming a full-stack developer follows these steps:
-                  </p>
-                  <ul className="list-disc pl-6 space-y-1 text-sm">
-                    <li>Mastering C++ for algorithmic problem-solving and logic</li>
-                    <li>Learning C# and object-oriented programming principles</li>
-                    <li>Studying data structures and algorithms for efficient code</li>
-                    <li>Exploring database concepts (SQL and NoSQL)</li>
-                    <li>Learning ASP.NET for enterprise-level applications</li>
-                    <li>Developing with Node.js for JavaScript-based backend services</li>
-                    <li>Building larger, more complex full-stack projects</li>
-                  </ul>
-                </AlertDescription>
-              </Alert>
-            )}
+            <AnimatePresence>
+              {showInfo && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Alert className="mb-8">
+                    <AlertTitle>My Full-Stack Development Path</AlertTitle>
+                    <AlertDescription>
+                      <p className="mb-2">
+                        My journey to becoming a full-stack developer follows these steps:
+                      </p>
+                      <ul className="list-disc pl-6 space-y-1 text-sm">
+                        <li>Mastering C++ for algorithmic problem-solving and logic</li>
+                        <li>Learning C# and object-oriented programming principles</li>
+                        <li>Studying data structures and algorithms for efficient code</li>
+                        <li>Exploring database concepts (SQL and NoSQL)</li>
+                        <li>Learning ASP.NET for enterprise-level applications</li>
+                        <li>Developing with Node.js for JavaScript-based backend services</li>
+                        <li>Building larger, more complex full-stack projects</li>
+                      </ul>
+                    </AlertDescription>
+                  </Alert>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         </div>
       </section>
