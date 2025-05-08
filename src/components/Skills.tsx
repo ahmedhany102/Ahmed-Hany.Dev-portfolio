@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView, AnimatePresence } from "framer-motion";
@@ -35,7 +34,7 @@ const skillsData: Skill[] = [
 export function Skills() {
   const [activeCategory, setActiveCategory] = useState<'all' | 'frontend' | 'backend' | 'tools' | 'coming-soon'>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [animateSkills, setAnimateSkills] = useState(false);
+  const [animateSkills, setAnimateSkills] = useState(true); // Changed to true by default
   const [showInfo, setShowInfo] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
@@ -44,10 +43,9 @@ export function Skills() {
   const isFutureInView = useInView(futureSkillsRef, { once: false, amount: 0.2 });
   
   useEffect(() => {
-    if (isInView) {
-      setAnimateSkills(true);
-    }
-  }, [isInView]);
+    // Always keep skills animated
+    setAnimateSkills(true);
+  }, [isInView, activeCategory]); // Added activeCategory as dependency
 
   const filteredSkills = skillsData.filter(
     (skill) => {
@@ -159,65 +157,62 @@ export function Skills() {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <AnimatePresence>
-              {filteredSkills.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  className={`bg-card border rounded-lg p-4 hover:shadow-md transition-all duration-300 cursor-pointer ${selectedSkill?.name === skill.name ? 'ring-2 ring-primary' : ''}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: animateSkills ? 1 : 0, y: animateSkills ? 0 : 20 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.02 }}
-                  onClick={() => handleSkillClick(skill)}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-medium">{skill.name}</h3>
-                    <div className="flex items-center gap-2">
-                      {skill.status && (
-                        <span className="px-2 py-1 rounded text-xs bg-amber-500 text-white">
-                          {skill.status}
-                        </span>
-                      )}
-                      {skill.category === "coming-soon" && (
-                        <span className="px-2 py-1 rounded text-xs bg-purple-500 text-white">
-                          Coming Soon
-                        </span>
-                      )}
-                      <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
-                        {Math.round(skill.level)}%
-                      </div>
+            {filteredSkills.map((skill, index) => (
+              <motion.div
+                key={skill.name}
+                className={`bg-card border rounded-lg p-4 hover:shadow-md transition-all duration-300 cursor-pointer ${selectedSkill?.name === skill.name ? 'ring-2 ring-primary' : ''}`}
+                initial={{ opacity: 1, y: 0 }} // Changed to always be visible initially
+                animate={{ opacity: 1, y: 0 }} // Always visible
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                whileHover={{ scale: 1.02 }}
+                onClick={() => handleSkillClick(skill)}
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-lg font-medium">{skill.name}</h3>
+                  <div className="flex items-center gap-2">
+                    {skill.status && (
+                      <span className="px-2 py-1 rounded text-xs bg-amber-500 text-white">
+                        {skill.status}
+                      </span>
+                    )}
+                    {skill.category === "coming-soon" && (
+                      <span className="px-2 py-1 rounded text-xs bg-purple-500 text-white">
+                        Coming Soon
+                      </span>
+                    )}
+                    <div className={`px-2 py-1 rounded text-xs text-white ${skill.color}`}>
+                      {Math.round(skill.level)}%
                     </div>
                   </div>
-                  
-                  <div className="mb-4">
-                    <Progress value={skill.level} className="h-2" />
-                  </div>
-                  
-                  <p className="text-sm text-muted-foreground">
-                    {skill.description}
-                  </p>
+                </div>
+                
+                <div className="mb-4">
+                  <Progress value={skill.level} className="h-2" />
+                </div>
+                
+                <p className="text-sm text-muted-foreground">
+                  {skill.description}
+                </p>
 
-                  <AnimatePresence>
-                    {selectedSkill?.name === skill.name && (
-                      <motion.div 
-                        className="mt-4 pt-4 border-t"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <p className="text-sm">
-                          {skill.category === 'coming-soon' 
-                            ? `${skill.name} is on my learning roadmap. I'm planning to start learning it soon to add to my skillset.` 
-                            : `I've been working with ${skill.name} for ${skill.level > 80 ? 'a while' : 'some time'} now. Click anywhere on this card to close this detail.`}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+                <AnimatePresence>
+                  {selectedSkill?.name === skill.name && (
+                    <motion.div 
+                      className="mt-4 pt-4 border-t"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <p className="text-sm">
+                        {skill.category === 'coming-soon' 
+                          ? `${skill.name} is on my learning roadmap. I'm planning to start learning it soon to add to my skillset.` 
+                          : `I've been working with ${skill.name} for ${skill.level > 80 ? 'a while' : 'some time'} now. Click anywhere on this card to close this detail.`}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
