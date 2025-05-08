@@ -4,7 +4,7 @@
 
 interface MessageCount {
   count: number;
-  lastReset: number; // timestamp of the last day reset
+  lastReset: string; // timestamp of the last day reset (as string)
 }
 
 interface IpDatabase {
