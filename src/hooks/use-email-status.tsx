@@ -9,14 +9,13 @@ export const useEmailStatus = () => {
   useEffect(() => {
     const checkEmailConfiguration = async () => {
       try {
-        const publicKey = 'IZgn4jwjJOvB-KaZs';
+        const publicKey = '7vyp_uD8eGfNTLgRg';
         
         // Initialize EmailJS
         emailjs.init(publicKey);
         
-        // Simple check to see if EmailJS is initialized
+        console.log('EmailJS initialized successfully with direct configuration');
         setIsEmailConfigured(true);
-        console.log('EmailJS configuration verified');
       } catch (error) {
         console.error('Error checking EmailJS configuration:', error);
         setIsEmailConfigured(false);

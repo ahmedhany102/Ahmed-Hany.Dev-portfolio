@@ -63,19 +63,18 @@ export function Contact() {
         form.reset();
         setTimeout(() => setFormSuccess(false), 5000);
       } else {
-        // Configure EmailJS parameters
+        // Configure EmailJS with your parameters
         await emailjs.send(
-          "default_service", // Service ID from EmailJS
-          "default_template", // Template ID from EmailJS
+          "service_1hqgmc9", // Your Service ID
+          "template_qi3bftx", // Your Template ID
           {
-            from_name: values.name,
-            from_email: values.email,
+            name: values.name,
+            email: values.email,
             message: values.message,
-            to_name: "Ahmed Hany",
-            reply_to: values.email
+            time: new Date().toLocaleString()
           },
           {
-            publicKey: "IZgn4jwjJOvB-KaZs",
+            publicKey: "7vyp_uD8eGfNTLgRg", // Your Public Key
           }
         );
         
