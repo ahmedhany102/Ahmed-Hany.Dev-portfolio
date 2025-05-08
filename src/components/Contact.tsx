@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { toast as sonnerToast } from "sonner";
-import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check, MessageSquare } from "lucide-react";
+import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check, MessageSquare, AlertTriangle } from "lucide-react";
 import emailjs from '@emailjs/browser';
 import { useEmailStatus } from "@/hooks/use-email-status";
 import { 
@@ -19,6 +19,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { canSendMessage, recordMessageSent } from "@/utils/messageRateLimit";
 
 // Define form validation schema
 const formSchema = z.object({
@@ -31,6 +32,8 @@ export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
   const [useWhatsApp, setUseWhatsApp] = useState(false);
+  const [rateLimitExceeded, setRateLimitExceeded] = useState(false);
+  const [remainingMessages, setRemainingMessages] = useState(3);
   const { toast } = useToast();
   const { isEmailConfigured } = useEmailStatus();
 
@@ -44,7 +47,45 @@ export function Contact() {
     }
   });
 
+  // Check rate limit on component mount
+  useEffect(() => {
+    const checkRateLimit = async () => {
+      const { allowed, remainingMessages } = await canSendMessage();
+      setRateLimitExceeded(!allowed);
+      setRemainingMessages(remainingMessages);
+      
+      if (!allowed) {
+        sonnerToast("Daily message limit reached", {
+          description: "You can only send 3 messages per day. Please try again tomorrow.",
+          icon: <AlertTriangle className="h-4 w-4 text-amber-500" />,
+        });
+      }
+    };
+    
+    checkRateLimit();
+  }, []);
+
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    // Recheck rate limit before sending
+    const { allowed, remainingMessages } = await canSendMessage();
+    setRemainingMessages(remainingMessages);
+    
+    if (!allowed) {
+      setRateLimitExceeded(true);
+      toast({
+        title: "Message limit reached",
+        description: "You can only send 3 messages per day. Please try again tomorrow.",
+        variant: "destructive",
+      });
+      
+      sonnerToast("Daily message limit reached", {
+        description: "You can only send 3 messages per day. Please try again tomorrow.",
+        icon: <AlertTriangle className="h-4 w-4 text-amber-500" />,
+      });
+      
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
@@ -53,6 +94,11 @@ export function Contact() {
         const whatsAppMessage = `Name: ${values.name}%0AEmail: ${values.email}%0AMessage: ${values.message}`;
         // Open WhatsApp with the message
         window.open(`https://wa.me/qr/2O2JSVLBTNEIJ1?text=${whatsAppMessage}`, '_blank');
+        
+        // Record message sent
+        await recordMessageSent();
+        const { remainingMessages: remaining } = await canSendMessage();
+        setRemainingMessages(remaining);
         
         setFormSuccess(true);
         toast({
@@ -77,6 +123,11 @@ export function Contact() {
             publicKey: "7vyp_uD8eGfNTLgRg", // Your Public Key
           }
         );
+        
+        // Record message sent
+        await recordMessageSent();
+        const { remainingMessages: remaining } = await canSendMessage();
+        setRemainingMessages(remaining);
         
         console.log("Email sent successfully");
         
@@ -219,7 +270,28 @@ export function Contact() {
               </div>
             </div>
 
-            {useWhatsApp ? (
+            {rateLimitExceeded ? (
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 rounded-md p-6 text-center">
+                <AlertTriangle className="h-8 w-8 mx-auto mb-3 text-amber-500" />
+                <h4 className="text-lg font-medium mb-2">Daily Message Limit Reached</h4>
+                <p className="text-sm">
+                  You've sent the maximum number of messages allowed per day (3).
+                  <br />
+                  Please try again tomorrow or contact directly via WhatsApp.
+                </p>
+                <div className="mt-4">
+                  <a 
+                    href="https://wa.me/qr/2O2JSVLBTNEIJ1" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    Contact via WhatsApp
+                  </a>
+                </div>
+              </div>
+            ) : useWhatsApp ? (
               <div className="bg-card border rounded-lg p-6">
                 <h4 className="font-medium mb-3">Send via WhatsApp</h4>
                 <p className="text-sm text-muted-foreground mb-4">
@@ -234,6 +306,12 @@ export function Contact() {
                   <MessageSquare className="w-4 h-4" />
                   Open WhatsApp
                 </a>
+
+                {remainingMessages < 3 && (
+                  <div className="mt-4 text-sm text-muted-foreground">
+                    <p>You have {remainingMessages} message(s) remaining today</p>
+                  </div>
+                )}
               </div>
             ) : (
               <Form {...form}>
@@ -294,17 +372,25 @@ export function Contact() {
                     )}
                   />
                   
-                  <Button 
-                    type="submit" 
-                    className="w-full group relative overflow-hidden" 
-                    disabled={isSubmitting}
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      {isSubmitting ? "Sending..." : "Send Message"}
-                      {!isSubmitting && <Send className="w-4 h-4" />}
-                    </span>
-                    <span className={`absolute inset-0 bg-primary-foreground opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></span>
-                  </Button>
+                  <div className="space-y-3">
+                    <Button 
+                      type="submit" 
+                      className="w-full group relative overflow-hidden" 
+                      disabled={isSubmitting}
+                    >
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        {isSubmitting ? "Sending..." : "Send Message"}
+                        {!isSubmitting && <Send className="w-4 h-4" />}
+                      </span>
+                      <span className={`absolute inset-0 bg-primary-foreground opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></span>
+                    </Button>
+                    
+                    {remainingMessages < 3 && (
+                      <p className="text-xs text-muted-foreground text-center">
+                        You have {remainingMessages} message(s) remaining today
+                      </p>
+                    )}
+                  </div>
                   
                   {formSuccess && (
                     <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 rounded-md p-4 mt-4 text-sm flex items-center gap-2">

@@ -52,16 +52,6 @@ export function Hero() {
                 About Me
               </Link>
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              asChild
-              className="transition-all duration-300 hover:translate-y-[-3px]"
-            >
-              <Link to="/skills">
-                My Skills
-              </Link>
-            </Button>
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -76,46 +66,6 @@ export function Hero() {
                   Get in Touch
                 </Link>
               </Button>
-            </motion.div>
-          </motion.div>
-          
-          <motion.div
-            className="hidden md:block absolute bottom-10 left-1/2 transform -translate-x-1/2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              duration: 0.5, 
-              delay: 1.2,
-              repeat: Infinity,
-              repeatType: "reverse",
-              repeatDelay: 0.5
-            }}
-          >
-            <motion.div 
-              className="border-2 border-primary/30 rounded-full p-2"
-              animate={{ 
-                boxShadow: isHovered 
-                  ? "0 0 0 6px rgba(123, 123, 123, 0.1)" 
-                  : "0 0 0 0px rgba(123, 123, 123, 0.1)" 
-              }}
-              transition={{ duration: 0.3 }}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              <svg 
-                className="w-6 h-6 text-primary" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="2" 
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
             </motion.div>
           </motion.div>
         </div>
