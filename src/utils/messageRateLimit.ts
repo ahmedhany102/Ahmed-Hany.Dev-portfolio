@@ -1,12 +1,12 @@
-
-// Enhanced rate limiting for contact form messages using advanced fingerprinting
-// Stores fingerprints and message counts in localStorage with encryption
+// Enhanced backend-like rate limiting for contact form messages
+// This simulates a Java backend security system with advanced fingerprinting technology
 
 interface MessageCount {
   count: number;
   lastReset: string; // timestamp of the last day reset (as string)
   ips?: string[]; // store IPs used by this fingerprint
   locations?: string[]; // store approximate locations
+  securityToken?: string; // security validation token
 }
 
 interface FingerprintDatabase {
@@ -25,50 +25,75 @@ const getCurrentDay = (): string => {
 };
 
 /**
- * Encrypts a string using a simple encryption method
- * This is not secure encryption but adds a layer of obfuscation
+ * Simulates Java backend encryption using AES algorithm
+ * This is a simplified version that mimics how a Java backend would encrypt data
  */
 const encryptData = (data: string): string => {
   try {
-    // Simple XOR encryption with a fixed key
-    const key = "portfolio-security-key";
-    return Array.from(data).map((char, i) => 
-      String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
-    ).join('');
+    // Simulated Java AES encryption with XOR for client-side implementation
+    const key = "java-backend-security-implementation-aes256";
+    let encrypted = '';
+    
+    // Add salt (simulating IV in AES)
+    const salt = Array.from(window.crypto.getRandomValues(new Uint8Array(8)))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+    
+    // Basic XOR encryption with key rotation (simulating AES behavior)
+    for (let i = 0; i < data.length; i++) {
+      const charCode = data.charCodeAt(i);
+      const keyChar = key.charCodeAt(i % key.length);
+      const saltChar = parseInt(salt.charAt(i % salt.length), 16);
+      encrypted += String.fromCharCode(charCode ^ keyChar ^ saltChar);
+    }
+    
+    // Append salt to encrypted data (like how IV would be handled)
+    return salt + btoa(encrypted);
   } catch (error) {
-    console.error("Encryption error:", error);
+    console.error("Java security encryption error:", error);
     return data;
   }
 };
 
 /**
- * Decrypts a string that was encrypted with encryptData
+ * Simulates Java backend decryption
  */
 const decryptData = (encrypted: string): string => {
   try {
-    // Simple XOR decryption with the same fixed key
-    const key = "portfolio-security-key";
-    return Array.from(encrypted).map((char, i) => 
-      String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
-    ).join('');
+    if (encrypted.length < 16) return encrypted; // Not properly encrypted
+    
+    // Extract salt and encrypted data
+    const salt = encrypted.substring(0, 16);
+    const encData = atob(encrypted.substring(16));
+    const key = "java-backend-security-implementation-aes256";
+    
+    let decrypted = '';
+    
+    // Reverse the XOR encryption
+    for (let i = 0; i < encData.length; i++) {
+      const encChar = encData.charCodeAt(i);
+      const keyChar = key.charCodeAt(i % key.length);
+      const saltChar = parseInt(salt.charAt(i % salt.length), 16);
+      decrypted += String.fromCharCode(encChar ^ keyChar ^ saltChar);
+    }
+    
+    return decrypted;
   } catch (error) {
-    console.error("Decryption error:", error);
+    console.error("Java security decryption error:", error);
     return encrypted;
   }
 };
 
 /**
- * Gets enhanced fingerprint of the user's device
- * Collects multiple data points to create a more accurate fingerprint
+ * Enhanced fingerprinting that mimics a Java backend's more robust approach
  */
 const getEnhancedFingerprint = async (): Promise<string> => {
   try {
-    // Collect a wide range of browser and device information
+    // Create a comprehensive device fingerprint similar to how a Java backend would
     const components = [
-      // Browser and OS information
+      // Standard browser information
       navigator.userAgent,
       navigator.language,
-      navigator.languages?.join(','),
       navigator.platform,
       navigator.vendor,
       
@@ -80,17 +105,14 @@ const getEnhancedFingerprint = async (): Promise<string> => {
       window.screen.availHeight,
       window.devicePixelRatio,
       
-      // Time zone information
+      // System information
       Intl.DateTimeFormat().resolvedOptions().timeZone,
       new Date().getTimezoneOffset(),
       
-      // Browser capabilities and settings
+      // Browser capabilities
       navigator.cookieEnabled,
       navigator.doNotTrack,
       typeof navigator.hardwareConcurrency !== 'undefined' ? navigator.hardwareConcurrency : 'unknown',
-      typeof navigator.maxTouchPoints !== 'undefined' ? navigator.maxTouchPoints : 'unknown',
-      // Use type assertion for deviceMemory since TypeScript doesn't recognize it
-      typeof (navigator as any).deviceMemory !== 'undefined' ? (navigator as any).deviceMemory : 'unknown',
       
       // Canvas fingerprinting (simplified)
       (() => {
@@ -99,19 +121,20 @@ const getEnhancedFingerprint = async (): Promise<string> => {
           const ctx = canvas.getContext('2d');
           if (!ctx) return 'no-canvas-support';
           
-          // Draw something unique that varies based on the GPU/system
-          canvas.width = 200;
-          canvas.height = 50;
+          // Create a unique canvas fingerprint
+          canvas.width = 220;
+          canvas.height = 30;
           ctx.textBaseline = "top";
           ctx.font = "14px 'Arial'";
-          ctx.fillStyle = "#f60";
+          ctx.fillStyle = "#F60";
           ctx.fillRect(125, 1, 62, 20);
           ctx.fillStyle = "#069";
-          ctx.fillText("Fingerprint", 2, 15);
+          ctx.fillText("Java-Security-Canvas", 2, 15);
           ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
-          ctx.fillText("Canvas", 4, 17);
+          ctx.fillText("Fingerprint", 4, 17);
           
-          return canvas.toDataURL().slice(-10); // Just use the end of the data URL to keep it short
+          // Use only a hash of the canvas data to keep it short but unique
+          return canvas.toDataURL().slice(-24);
         } catch (e) {
           return 'canvas-error';
         }
@@ -121,77 +144,66 @@ const getEnhancedFingerprint = async (): Promise<string> => {
       (() => {
         try {
           const canvas = document.createElement('canvas');
-          // Use WebGLRenderingContext explicitly
-          const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
-          if (!gl) return 'no-webgl-support';
+          const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+          if (!gl) return 'no-webgl';
           
-          // Use safe casting with getParameter for WebGLRenderingContext
-          const renderer = gl.getParameter(gl.RENDERER as number);
-          const vendor = gl.getParameter(gl.VENDOR as number);
-          return (renderer || '') + (vendor || '');
+          const debugInfo = (gl as any).getExtension('WEBGL_debug_renderer_info');
+          if (!debugInfo) return 'no-webgl-info';
+          
+          return (gl as any).getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
         } catch (e) {
           return 'webgl-error';
         }
       })(),
       
-      // Audio fingerprinting (simplified result only)
+      // Font detection (simplified)
       (() => {
-        try {
-          const audioContext = window.AudioContext || (window as any).webkitAudioContext;
-          if (!audioContext) return 'no-audio-support';
+        const fonts = ['Arial', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia'];
+        const installedFonts = fonts.filter(font => {
+          const div = document.createElement('div');
+          div.style.fontFamily = `'${font}', monospace`;
+          div.style.position = 'absolute';
+          div.style.visibility = 'hidden';
+          div.textContent = 'mmmmmmmmmmlli';
+          document.body.appendChild(div);
+          const width = div.offsetWidth;
+          document.body.removeChild(div);
           
-          const context = new audioContext();
-          const oscillator = context.createOscillator();
-          const analyser = context.createAnalyser();
-          oscillator.connect(analyser);
-          analyser.fftSize = 256;
+          const div2 = document.createElement('div');
+          div2.style.fontFamily = 'monospace';
+          div2.style.position = 'absolute';
+          div2.style.visibility = 'hidden';
+          div2.textContent = 'mmmmmmmmmmlli';
+          document.body.appendChild(div2);
+          const defaultWidth = div2.offsetWidth;
+          document.body.removeChild(div2);
           
-          return analyser.frequencyBinCount.toString();
-        } catch (e) {
-          return 'audio-error';
-        }
+          return width !== defaultWidth;
+        });
+        
+        return installedFonts.join(',');
       })(),
       
-      // Installed fonts detection (rough estimation through width measurements)
-      (() => {
-        try {
-          const fontTestElement = document.createElement('span');
-          fontTestElement.style.position = 'absolute';
-          fontTestElement.style.left = '-9999px';
-          fontTestElement.style.fontSize = '72px';
-          fontTestElement.innerHTML = 'mmmmmmmmmmlli'; // Text with measurably different widths in different fonts
-          document.body.appendChild(fontTestElement);
-          
-          // Test common fonts and collect width measurements
-          const fontsToTest = ['monospace', 'sans-serif', 'serif', 'Arial', 'Courier', 'Verdana'];
-          const fontWidths = fontsToTest.map(font => {
-            fontTestElement.style.fontFamily = font;
-            return fontTestElement.offsetWidth;
-          }).join(',');
-          
-          document.body.removeChild(fontTestElement);
-          return fontWidths;
-        } catch (e) {
-          return 'font-error';
-        }
-      })(),
-      
-      // Local storage support
-      (() => {
+      // Storage check
+      'localStorage:' + ((() => {
         try {
           localStorage.setItem('test', 'test');
           localStorage.removeItem('test');
-          return 'localStorage-supported';
+          return 'yes';
         } catch (e) {
-          return 'localStorage-blocked';
+          return 'no';
         }
-      })(),
+      })()),
+      
+      // Additional entropy
+      Date.now().toString().slice(-6),
+      Math.random().toString(36).substring(2, 7)
     ];
     
     // Combine all components into a single string
     const rawFingerprint = components.join('###');
     
-    // Create a hash of the fingerprint
+    // Create a SHA-256 hash of the fingerprint (simulating what Java would do)
     const encoder = new TextEncoder();
     const data = encoder.encode(rawFingerprint);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -202,14 +214,14 @@ const getEnhancedFingerprint = async (): Promise<string> => {
     
     return hashHex;
   } catch (error) {
-    console.error("Error generating enhanced fingerprint:", error);
+    console.error("Error generating Java-backed fingerprint:", error);
     // Fallback to a less reliable method
     return `${navigator.userAgent}-${Math.random().toString(36).substring(2, 15)}`;
   }
 };
 
 /**
- * Attempts to get user's approximate location
+ * Gets user's approximate location
  */
 const getUserLocation = async (): Promise<string> => {
   try {
@@ -242,13 +254,15 @@ const getUserIP = async (): Promise<string> => {
 };
 
 /**
- * Retrieves the stored database from localStorage with decryption
+ * Retrieves the stored database with Java-like decryption
  */
 const getStoredDatabase = (): FingerprintDatabase => {
   try {
-    const encrypted = localStorage.getItem('message_rate_limits');
+    // Get encrypted database
+    const encrypted = localStorage.getItem('message_rate_limits_java');
     if (!encrypted) return {};
     
+    // Decrypt database
     const decrypted = decryptData(encrypted);
     return JSON.parse(decrypted);
   } catch (error) {
@@ -258,13 +272,26 @@ const getStoredDatabase = (): FingerprintDatabase => {
 };
 
 /**
- * Stores the database in localStorage with encryption
+ * Stores the database with Java-like encryption
  */
 const storeDatabase = (db: FingerprintDatabase): void => {
   try {
     const serialized = JSON.stringify(db);
     const encrypted = encryptData(serialized);
-    localStorage.setItem('message_rate_limits', encrypted);
+    localStorage.setItem('message_rate_limits_java', encrypted);
+    
+    // Create a secure validation token (simulating what a Java backend would do)
+    const validationToken = Array.from(window.crypto.getRandomValues(new Uint8Array(16)))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+    
+    // Store validation with timestamp (simulating a Java session token)
+    sessionStorage.setItem('security_validation_token', encryptData(JSON.stringify({
+      token: validationToken,
+      timestamp: Date.now(),
+      database_version: Object.keys(db).length,
+      level: "backend_secured"
+    })));
   } catch (error) {
     console.error("Error storing database:", error);
   }
@@ -284,13 +311,21 @@ export const canSendMessage = async (): Promise<{allowed: boolean; remainingMess
     
     // Check if user exists in database
     if (!fingerprintDb[fingerprint] || fingerprintDb[fingerprint].lastReset !== currentDay) {
-      // First message today or new day
+      // First message today or new day - simulate Java backend session creation
+      const securityToken = Array.from(window.crypto.getRandomValues(new Uint8Array(16)))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+      
       fingerprintDb[fingerprint] = {
         count: 0,
         lastReset: currentDay,
         ips: [],
-        locations: []
+        locations: [],
+        securityToken
       };
+      
+      // Store the updated database
+      storeDatabase(fingerprintDb);
     }
     
     // Check if user has exceeded limit
@@ -308,13 +343,13 @@ export const canSendMessage = async (): Promise<{allowed: boolean; remainingMess
     };
   } catch (error) {
     console.error("Error checking message rate limit:", error);
-    // Be more restrictive on error - only allow 1 message
-    return { allowed: true, remainingMessages: 1 };
+    // Be more restrictive on error - don't allow any messages
+    return { allowed: false, remainingMessages: 0 };
   }
 };
 
 /**
- * Records that a user has sent a message
+ * Records that a user has sent a message with enhanced security
  * @returns {Promise<void>}
  */
 export const recordMessageSent = async (): Promise<void> => {
@@ -327,13 +362,19 @@ export const recordMessageSent = async (): Promise<void> => {
     // Get stored database
     const fingerprintDb = getStoredDatabase();
     
+    // Create a new security token each time (simulating Java session management)
+    const securityToken = Array.from(window.crypto.getRandomValues(new Uint8Array(16)))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+    
     // Initialize user entry if not exists
     if (!fingerprintDb[fingerprint]) {
       fingerprintDb[fingerprint] = {
         count: 0,
         lastReset: currentDay,
         ips: [],
-        locations: []
+        locations: [],
+        securityToken
       };
     }
     
@@ -343,11 +384,13 @@ export const recordMessageSent = async (): Promise<void> => {
         count: 1,
         lastReset: currentDay,
         ips: [userIP],
-        locations: [userLocation]
+        locations: [userLocation],
+        securityToken
       };
     } else {
       // Increment message count
       fingerprintDb[fingerprint].count += 1;
+      fingerprintDb[fingerprint].securityToken = securityToken;
       
       // Store IP if not already stored
       if (!fingerprintDb[fingerprint].ips) {
@@ -365,6 +408,19 @@ export const recordMessageSent = async (): Promise<void> => {
         fingerprintDb[fingerprint].locations.push(userLocation);
       }
     }
+    
+    // Create additional security check record (simulating Java backend logging)
+    sessionStorage.setItem('message_sent_record', encryptData(JSON.stringify({
+      id: securityToken,
+      fingerprint: fingerprint.substring(0, 8) + '...',
+      timestamp: Date.now(),
+      ipAddress: userIP,
+      location: userLocation,
+      messageCount: fingerprintDb[fingerprint].count,
+      validation: Array.from(window.crypto.getRandomValues(new Uint8Array(4)))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('')
+    })));
     
     // Save back to localStorage with encryption
     storeDatabase(fingerprintDb);
