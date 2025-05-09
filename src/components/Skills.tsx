@@ -22,7 +22,7 @@ const skillsData: Skill[] = [
   { name: "HTML & CSS", level: 100, category: "frontend", color: "bg-orange-500", description: "Semantic HTML5 and modern CSS including Flexbox and Grid" },
   { name: "JavaScript", level: 50, category: "frontend", color: "bg-yellow-500", description: "ES6+, async/await, promises, and functional programming", status: "Learning" },
   { name: "React", level: 0, category: "coming-soon", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks" },
-  { name: "TypeScript", level: 80, category: "frontend", color: "bg-blue-600", description: "Type-safe code with interfaces, generics, and utility types" },
+  { name: "TypeScript", level: 0, category: "coming-soon", color: "bg-blue-600", description: "Type-safe code with interfaces, generics, and utility types" },
   { name: "Tailwind CSS", level: 0, category: "coming-soon", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development" },
   { name: "Next.js", level: 0, category: "coming-soon", color: "bg-black", description: "React framework for production with SSR and static site generation" },
   { name: "C++", level: 70, category: "backend", color: "bg-blue-800", description: "Problem solving and strengthening programming logic" },
@@ -34,6 +34,7 @@ const skillsData: Skill[] = [
   { name: "Framer Motion", level: 40, category: "frontend", color: "bg-purple-500", description: "Animation library for React to create fluid UI motion", status: "Learning" },
   { name: "React Router", level: 65, category: "frontend", color: "bg-red-500", description: "Declarative routing for React applications" },
   { name: "Webpack", level: 0, category: "coming-soon", color: "bg-blue-400", description: "Module bundler for JavaScript applications" },
+  { name: "Webflow", level: 50, category: "frontend", color: "bg-blue-500", description: "Visual web design platform for creating responsive websites", status: "Learning" },
 ];
 
 export function Skills() {

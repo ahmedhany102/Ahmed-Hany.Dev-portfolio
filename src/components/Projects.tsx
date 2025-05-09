@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, ChartBar } from "lucide-react";
+import { ExternalLink, Shield, ShieldCheck } from "lucide-react";
 
 type Project = {
   title: string;
@@ -13,6 +13,7 @@ type Project = {
   image: string;
   isFrontendOnly?: boolean;
   isApiOnly?: boolean;
+  isSecure?: boolean;
 };
 
 const projects: Project[] = [
@@ -23,6 +24,7 @@ const projects: Project[] = [
     link: "https://ahmedhany102.github.io/Portfolio.Ahmed-Hany/",
     image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,
+    isSecure: true,
   },
   {
     title: "Big Web",
@@ -31,6 +33,7 @@ const projects: Project[] = [
     link: "https://ahmedhany102.github.io/ALMaw3EZaa/",
     image: "https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,
+    isSecure: true,
   },
   {
     title: "Restaurant Project",
@@ -39,6 +42,7 @@ const projects: Project[] = [
     link: "https://ahmedhany102.github.io/Restaurant/",
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,
+    isSecure: true,
   },
   {
     title: "Weather Dashboard",
@@ -47,6 +51,7 @@ const projects: Project[] = [
     link: "https://openweathermap.org/",
     image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isApiOnly: true,
+    isSecure: true,
   },
 ];
 
@@ -81,6 +86,12 @@ export function Projects() {
                   <div className="flex justify-between items-start">
                     <CardTitle>{project.title}</CardTitle>
                     <div className="flex gap-2">
+                      {project.isSecure && (
+                        <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-md flex items-center gap-1">
+                          <ShieldCheck className="h-3 w-3" />
+                          Secure
+                        </span>
+                      )}
                       {project.isFrontendOnly && (
                         <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-md">
                           Frontend Only

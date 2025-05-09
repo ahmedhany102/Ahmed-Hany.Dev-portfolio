@@ -1,9 +1,12 @@
+
 // Enhanced rate limiting for contact form messages using advanced fingerprinting
 // Stores fingerprints and message counts in localStorage with encryption
 
 interface MessageCount {
   count: number;
   lastReset: string; // timestamp of the last day reset (as string)
+  ips?: string[]; // store IPs used by this fingerprint
+  locations?: string[]; // store approximate locations
 }
 
 interface FingerprintDatabase {
@@ -123,7 +126,9 @@ const getEnhancedFingerprint = async (): Promise<string> => {
           if (!gl) return 'no-webgl-support';
           
           // Use safe casting with getParameter for WebGLRenderingContext
-          return (gl.getParameter(gl.RENDERER) || '') + (gl.getParameter(gl.VENDOR) || '');
+          const renderer = gl.getParameter(gl.RENDERER as number);
+          const vendor = gl.getParameter(gl.VENDOR as number);
+          return (renderer || '') + (vendor || '');
         } catch (e) {
           return 'webgl-error';
         }
@@ -169,7 +174,18 @@ const getEnhancedFingerprint = async (): Promise<string> => {
         } catch (e) {
           return 'font-error';
         }
-      })()
+      })(),
+      
+      // Local storage support
+      (() => {
+        try {
+          localStorage.setItem('test', 'test');
+          localStorage.removeItem('test');
+          return 'localStorage-supported';
+        } catch (e) {
+          return 'localStorage-blocked';
+        }
+      })(),
     ];
     
     // Combine all components into a single string
@@ -189,6 +205,39 @@ const getEnhancedFingerprint = async (): Promise<string> => {
     console.error("Error generating enhanced fingerprint:", error);
     // Fallback to a less reliable method
     return `${navigator.userAgent}-${Math.random().toString(36).substring(2, 15)}`;
+  }
+};
+
+/**
+ * Attempts to get user's approximate location
+ */
+const getUserLocation = async (): Promise<string> => {
+  try {
+    // Try to get IP-based location from a third-party API
+    const response = await fetch('https://ipapi.co/json/');
+    const data = await response.json();
+    if (data && data.city && data.country) {
+      return `${data.city}, ${data.country}`;
+    }
+    return 'Unknown';
+  } catch (error) {
+    console.error("Error getting location:", error);
+    return 'Location Unavailable';
+  }
+};
+
+/**
+ * Gets user's IP address (or attempts to)
+ */
+const getUserIP = async (): Promise<string> => {
+  try {
+    // Use a free service to get IP
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    return data.ip || 'Unknown';
+  } catch (error) {
+    console.error("Error getting IP:", error);
+    return 'IP Unavailable';
   }
 };
 
@@ -238,7 +287,9 @@ export const canSendMessage = async (): Promise<{allowed: boolean; remainingMess
       // First message today or new day
       fingerprintDb[fingerprint] = {
         count: 0,
-        lastReset: currentDay
+        lastReset: currentDay,
+        ips: [],
+        locations: []
       };
     }
     
@@ -270,6 +321,8 @@ export const recordMessageSent = async (): Promise<void> => {
   try {
     const currentDay = getCurrentDay();
     const fingerprint = await getEnhancedFingerprint();
+    const userIP = await getUserIP();
+    const userLocation = await getUserLocation();
     
     // Get stored database
     const fingerprintDb = getStoredDatabase();
@@ -278,7 +331,9 @@ export const recordMessageSent = async (): Promise<void> => {
     if (!fingerprintDb[fingerprint]) {
       fingerprintDb[fingerprint] = {
         count: 0,
-        lastReset: currentDay
+        lastReset: currentDay,
+        ips: [],
+        locations: []
       };
     }
     
@@ -286,11 +341,29 @@ export const recordMessageSent = async (): Promise<void> => {
     if (fingerprintDb[fingerprint].lastReset !== currentDay) {
       fingerprintDb[fingerprint] = {
         count: 1,
-        lastReset: currentDay
+        lastReset: currentDay,
+        ips: [userIP],
+        locations: [userLocation]
       };
     } else {
       // Increment message count
       fingerprintDb[fingerprint].count += 1;
+      
+      // Store IP if not already stored
+      if (!fingerprintDb[fingerprint].ips) {
+        fingerprintDb[fingerprint].ips = [];
+      }
+      if (!fingerprintDb[fingerprint].ips.includes(userIP)) {
+        fingerprintDb[fingerprint].ips.push(userIP);
+      }
+      
+      // Store location if not already stored
+      if (!fingerprintDb[fingerprint].locations) {
+        fingerprintDb[fingerprint].locations = [];
+      }
+      if (!fingerprintDb[fingerprint].locations.includes(userLocation)) {
+        fingerprintDb[fingerprint].locations.push(userLocation);
+      }
     }
     
     // Save back to localStorage with encryption
