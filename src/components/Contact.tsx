@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { toast as sonnerToast } from "sonner";
-import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check, MessageSquare, AlertTriangle } from "lucide-react";
+import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check, AlertTriangle } from "lucide-react";
 import emailjs from '@emailjs/browser';
 import { useEmailStatus } from "@/hooks/use-email-status";
 import { 
@@ -31,7 +31,6 @@ const formSchema = z.object({
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
-  const [useWhatsApp, setUseWhatsApp] = useState(false);
   const [rateLimitExceeded, setRateLimitExceeded] = useState(false);
   const [remainingMessages, setRemainingMessages] = useState(3);
   const { toast } = useToast();
@@ -89,80 +88,56 @@ export function Contact() {
     setIsSubmitting(true);
     
     try {
-      if (useWhatsApp) {
-        // Format message for WhatsApp
-        const whatsAppMessage = `Name: ${values.name}%0AEmail: ${values.email}%0AMessage: ${values.message}`;
-        // Open WhatsApp with the message
-        window.open(`https://wa.me/qr/2O2JSVLBTNEIJ1?text=${whatsAppMessage}`, '_blank');
-        
-        // Record message sent
-        await recordMessageSent();
-        const { remainingMessages: remaining } = await canSendMessage();
-        setRemainingMessages(remaining);
-        
-        setFormSuccess(true);
-        toast({
-          title: "WhatsApp opened!",
-          description: "Please send your message through WhatsApp.",
-        });
-        
-        form.reset();
-        setTimeout(() => setFormSuccess(false), 5000);
-      } else {
-        // Configure EmailJS with your parameters
-        await emailjs.send(
-          "service_1hqgmc9", // Your Service ID
-          "template_qi3bftx", // Your Template ID
-          {
-            name: values.name,
-            email: values.email,
-            message: values.message,
-            time: new Date().toLocaleString()
-          },
-          {
-            publicKey: "7vyp_uD8eGfNTLgRg", // Your Public Key
-          }
-        );
-        
-        // Record message sent
-        await recordMessageSent();
-        const { remainingMessages: remaining } = await canSendMessage();
-        setRemainingMessages(remaining);
-        
-        console.log("Email sent successfully");
-        
-        setFormSuccess(true);
-        toast({
-          title: "Message sent!",
-          description: "Thanks for reaching out. I'll get back to you soon.",
-        });
-        
-        sonnerToast("Message sent successfully!", {
-          description: "I'll get back to you soon.",
-          icon: <Check className="h-4 w-4 text-green-500" />
-        });
-        
-        // Reset form
-        form.reset();
-        
-        // Reset success state after delay
-        setTimeout(() => setFormSuccess(false), 5000);
-      }
+      // Configure EmailJS with your parameters
+      await emailjs.send(
+        "service_1hqgmc9", // Your Service ID
+        "template_qi3bftx", // Your Template ID
+        {
+          name: values.name,
+          email: values.email,
+          message: values.message,
+          time: new Date().toLocaleString()
+        },
+        {
+          publicKey: "7vyp_uD8eGfNTLgRg", // Your Public Key
+        }
+      );
+      
+      // Record message sent
+      await recordMessageSent();
+      const { remainingMessages: remaining } = await canSendMessage();
+      setRemainingMessages(remaining);
+      
+      console.log("Email sent successfully");
+      
+      setFormSuccess(true);
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out. I'll get back to you soon.",
+      });
+      
+      sonnerToast("Message sent successfully!", {
+        description: "I'll get back to you soon.",
+        icon: <Check className="h-4 w-4 text-green-500" />
+      });
+      
+      // Reset form
+      form.reset();
+      
+      // Reset success state after delay
+      setTimeout(() => setFormSuccess(false), 5000);
     } catch (error) {
       console.error("Error sending email:", error);
       toast({
         title: "Error",
-        description: "Failed to send message. Try using WhatsApp instead.",
+        description: "Failed to send message. Please try again later.",
         variant: "destructive",
       });
       
       sonnerToast("Failed to send message", {
-        description: "Please try using WhatsApp or contact me directly at ahmedhanyseif97@gmail.com",
+        description: "Please try again later or contact me directly at ahmedseifeldin97@gmail.com",
         icon: <Mail className="h-4 w-4 text-red-500" />,
       });
-      
-      // Suggest using WhatsApp instead
-      setUseWhatsApp(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -182,17 +157,9 @@ export function Contact() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-medium mb-3">Email</h3>
-                <a href="mailto:ahmedhanyseif97@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                <a href="mailto:ahmedseifeldin97@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
                   <Mail className="w-5 h-5" />
                   <span>ahmedseifeldin97@gmail.com</span>
-                </a>
-              </div>
-              
-              <div>
-                <h3 className="text-xl font-medium mb-3">WhatsApp</h3>
-                <a href="https://wa.me/qr/2O2JSVLBTNEIJ1" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" />
-                  <span>Message me on WhatsApp</span>
                 </a>
               </div>
               
@@ -246,29 +213,7 @@ export function Contact() {
           </div>
           
           <div>
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold">Send Message</h3>
-              <div className="flex items-center gap-3">
-                <Button 
-                  variant={!useWhatsApp ? "default" : "outline"} 
-                  size="sm"
-                  onClick={() => setUseWhatsApp(false)}
-                  className="flex items-center gap-2"
-                >
-                  <Mail className="w-4 h-4" />
-                  Email
-                </Button>
-                <Button 
-                  variant={useWhatsApp ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setUseWhatsApp(true)}
-                  className="flex items-center gap-2"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  WhatsApp
-                </Button>
-              </div>
-            </div>
+            <h3 className="text-xl font-semibold mb-6">Send Message</h3>
 
             {rateLimitExceeded ? (
               <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 rounded-md p-6 text-center">
@@ -277,41 +222,17 @@ export function Contact() {
                 <p className="text-sm">
                   You've sent the maximum number of messages allowed per day (3).
                   <br />
-                  Please try again tomorrow or contact directly via WhatsApp.
+                  Please try again tomorrow or contact directly via email.
                 </p>
                 <div className="mt-4">
                   <a 
-                    href="https://wa.me/qr/2O2JSVLBTNEIJ1" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors"
+                    href="mailto:ahmedseifeldin97@gmail.com" 
+                    className="inline-flex items-center gap-2 bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded transition-colors"
                   >
-                    <MessageSquare className="w-4 h-4" />
-                    Contact via WhatsApp
+                    <Mail className="w-4 h-4" />
+                    Send Email Directly
                   </a>
                 </div>
-              </div>
-            ) : useWhatsApp ? (
-              <div className="bg-card border rounded-lg p-6">
-                <h4 className="font-medium mb-3">Send via WhatsApp</h4>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Click the button below to open WhatsApp and send a message directly.
-                </p>
-                <a 
-                  href="https://wa.me/qr/2O2JSVLBTNEIJ1" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  Open WhatsApp
-                </a>
-
-                {remainingMessages < 3 && (
-                  <div className="mt-4 text-sm text-muted-foreground">
-                    <p>You have {remainingMessages} message(s) remaining today</p>
-                  </div>
-                )}
               </div>
             ) : (
               <Form {...form}>
