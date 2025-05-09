@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Shield, ShieldCheck } from "lucide-react";
+import { ExternalLink, Shield, ShieldCheck, Database, Lock } from "lucide-react";
 
 type Project = {
   title: string;
@@ -20,7 +20,7 @@ const projects: Project[] = [
   {
     title: "Ahmed Hany's Portfolio",
     description: "A personal portfolio website with modern design, animations, and interactive elements.",
-    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Angular"],
     link: "https://ahmedhany102.github.io/Portfolio.Ahmed-Hany/",
     image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,
@@ -29,7 +29,7 @@ const projects: Project[] = [
   {
     title: "Big Web",
     description: "A comprehensive web platform showcasing frontend development skills and modern design principles.",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
+    technologies: ["React", "Node.js", "MongoDB", "Angular"],
     link: "https://ahmedhany102.github.io/ALMaw3EZaa/",
     image: "https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,
@@ -47,7 +47,7 @@ const projects: Project[] = [
   {
     title: "Weather Dashboard",
     description: "An interactive weather application that fetches real-time data from OpenWeather API, displaying current conditions and forecasts.",
-    technologies: ["React", "OpenWeather API", "Chart.js", "CSS3"],
+    technologies: ["React", "OpenWeather API", "Chart.js", "Angular"],
     link: "https://openweathermap.org/",
     image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isApiOnly: true,
@@ -66,6 +66,18 @@ export function Projects() {
           Here are some of the projects I've worked on. Each one presented unique 
           challenges and opportunities to apply different technologies and techniques.
         </p>
+        
+        {/* Security notice banner */}
+        <div className="mb-8 bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-4 flex items-start gap-3">
+          <Lock className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+          <div>
+            <h3 className="text-lg font-medium text-green-800 dark:text-green-300 mb-1">Enhanced Security Protection</h3>
+            <p className="text-sm text-green-700 dark:text-green-400">
+              All projects on this website implement advanced security measures to protect users. 
+              We use secure connections, data encryption, and follow best practices for web security.
+            </p>
+          </div>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (

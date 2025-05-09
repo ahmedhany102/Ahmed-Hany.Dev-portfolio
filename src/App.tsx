@@ -21,12 +21,12 @@ const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
-    // Initialize EmailJS with direct configuration for better compatibility
-    const publicKey = 'IZgn4jwjJOvB-KaZs';
+    // Initialize EmailJS with new configuration
+    const publicKey = 'IvJbg5_jvl0_jd4I7';
     
     try {
       emailjs.init({ publicKey });
-      console.log("EmailJS initialized successfully with direct configuration");
+      console.log("EmailJS initialized successfully with new configuration");
     } catch (error) {
       console.error("Error initializing EmailJS:", error);
     }

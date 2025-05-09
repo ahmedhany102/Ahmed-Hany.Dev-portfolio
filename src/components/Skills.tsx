@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView, AnimatePresence } from "framer-motion";
@@ -31,10 +30,9 @@ const skillsData: Skill[] = [
   { name: "GitHub", level: 80, category: "tools", color: "bg-gray-800", description: "Version control and collaborative development" },
   { name: "Vibe Coding", level: 90, category: "tools", color: "bg-pink-600", description: "Creating aesthetically pleasing and functional interfaces" },
   { name: "Node.js", level: 0, category: "coming-soon", color: "bg-green-600", description: "Server-side JavaScript runtime environment" },
-  { name: "Framer Motion", level: 40, category: "frontend", color: "bg-purple-500", description: "Animation library for React to create fluid UI motion", status: "Learning" },
-  { name: "React Router", level: 65, category: "frontend", color: "bg-red-500", description: "Declarative routing for React applications" },
-  { name: "Webpack", level: 0, category: "coming-soon", color: "bg-blue-400", description: "Module bundler for JavaScript applications" },
+  { name: "Linux", level: 60, category: "tools", color: "bg-yellow-800", description: "Operating system skills and command line proficiency" },
   { name: "Webflow", level: 50, category: "frontend", color: "bg-blue-500", description: "Visual web design platform for creating responsive websites", status: "Learning" },
+  { name: "SQL", level: 0, category: "coming-soon", color: "bg-green-700", description: "Structured Query Language for database management" },
 ];
 
 export function Skills() {

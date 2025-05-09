@@ -1,10 +1,11 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { toast as sonnerToast } from "sonner";
-import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check, AlertTriangle } from "lucide-react";
+import { Facebook, Instagram, Github, Linkedin, Mail, Send, Check, AlertTriangle, Database, Lock } from "lucide-react";
 import emailjs from '@emailjs/browser';
 import { useEmailStatus } from "@/hooks/use-email-status";
 import { 
@@ -32,6 +33,7 @@ export function Contact() {
   const [formSuccess, setFormSuccess] = useState(false);
   const [rateLimitExceeded, setRateLimitExceeded] = useState(false);
   const [remainingMessages, setRemainingMessages] = useState(3);
+  const [securityEnabled, setSecurityEnabled] = useState(true);
   const { toast } = useToast();
   const { isEmailConfigured } = useEmailStatus();
 
@@ -87,10 +89,10 @@ export function Contact() {
     setIsSubmitting(true);
     
     try {
-      // Configure EmailJS with your parameters
+      // Updated EmailJS configuration with new service, template, and public key
       await emailjs.send(
-        "service_1hqgmc9", // Your Service ID
-        "template_qi3bftx", // Your Template ID
+        "service_di7j65q", // New Service ID
+        "template_0jx0m0i", // New Template ID
         {
           name: values.name,
           email: values.email,
@@ -98,7 +100,7 @@ export function Contact() {
           time: new Date().toLocaleString()
         },
         {
-          publicKey: "7vyp_uD8eGfNTLgRg", // Your Public Key
+          publicKey: "IvJbg5_jvl0_jd4I7", // New Public Key
         }
       );
       
@@ -207,6 +209,31 @@ export function Contact() {
                     <span>Instagram</span>
                   </a>
                 </div>
+              </div>
+
+              {/* Security Info */}
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Lock className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  <h3 className="text-lg font-medium text-green-800 dark:text-green-300">Enhanced Security</h3>
+                </div>
+                <p className="text-sm text-green-700 dark:text-green-400">
+                  This contact form includes advanced security measures to protect against spam and abuse:
+                </p>
+                <ul className="text-xs text-green-700 dark:text-green-400 mt-2 space-y-1">
+                  <li className="flex items-start gap-1">
+                    <span className="mt-0.5">•</span>
+                    <span>Device fingerprinting and IP tracking</span>
+                  </li>
+                  <li className="flex items-start gap-1">
+                    <span className="mt-0.5">•</span>
+                    <span>Cross-browser detection prevents limit circumvention</span>
+                  </li>
+                  <li className="flex items-start gap-1">
+                    <span className="mt-0.5">•</span>
+                    <span>Encrypted data storage and transmission</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

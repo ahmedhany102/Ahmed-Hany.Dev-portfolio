@@ -9,7 +9,7 @@ export const useEmailStatus = () => {
   useEffect(() => {
     const checkEmailConfiguration = async () => {
       try {
-        const publicKey = '7vyp_uD8eGfNTLgRg';
+        const publicKey = 'IvJbg5_jvl0_jd4I7'; // Updated public key
         
         // Initialize EmailJS
         emailjs.init(publicKey);
