@@ -1,4 +1,3 @@
-
 // Enhanced rate limiting for contact form messages using advanced fingerprinting
 // Stores fingerprints and message counts in localStorage with encryption
 
@@ -87,7 +86,8 @@ const getEnhancedFingerprint = async (): Promise<string> => {
       navigator.doNotTrack,
       typeof navigator.hardwareConcurrency !== 'undefined' ? navigator.hardwareConcurrency : 'unknown',
       typeof navigator.maxTouchPoints !== 'undefined' ? navigator.maxTouchPoints : 'unknown',
-      typeof navigator.deviceMemory !== 'undefined' ? navigator.deviceMemory : 'unknown',
+      // Use type assertion for deviceMemory since TypeScript doesn't recognize it
+      typeof (navigator as any).deviceMemory !== 'undefined' ? (navigator as any).deviceMemory : 'unknown',
       
       // Canvas fingerprinting (simplified)
       (() => {
@@ -118,10 +118,12 @@ const getEnhancedFingerprint = async (): Promise<string> => {
       (() => {
         try {
           const canvas = document.createElement('canvas');
-          const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+          // Use WebGLRenderingContext explicitly
+          const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
           if (!gl) return 'no-webgl-support';
           
-          return gl.getParameter(gl.RENDERER) + gl.getParameter(gl.VENDOR);
+          // Use safe casting with getParameter for WebGLRenderingContext
+          return (gl.getParameter(gl.RENDERER) || '') + (gl.getParameter(gl.VENDOR) || '');
         } catch (e) {
           return 'webgl-error';
         }
