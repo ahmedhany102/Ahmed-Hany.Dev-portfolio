@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, ShieldCheck, Database } from "lucide-react";
+import { toast } from "sonner";
 
 type Project = {
   title: string;
   description: string;
   technologies: string[];
-  link: string;
   image: string;
   isFrontendOnly?: boolean;
   isApiOnly?: boolean;
@@ -21,8 +21,7 @@ const projects: Project[] = [
     title: "Ahmed Hany's Portfolio",
     description: "A personal portfolio website with modern design, animations, and interactive elements.",
     technologies: ["JavaScript", "React", "Tailwind CSS"],
-    link: "https://ahmed-hany-folio-glow.lovable.app/",
-    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    image: "/lovable-uploads/828b9fe3-8b06-455b-949a-81fbe7e83205.png",
     isFrontendOnly: true,
     isSecure: true,
   },
@@ -30,8 +29,7 @@ const projects: Project[] = [
     title: "Online Ecommerce Store",
     description: "A comprehensive ecommerce platform showcasing modern web development skills and user experience design.",
     technologies: ["React", "Node.js", "PostgreSQL"],
-    link: "https://w8-wardrobe.lovable.app/",
-    image: "https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    image: "/lovable-uploads/9382eb85-cfa0-43b6-bc51-ad21005c18bb.png",
     isFrontendOnly: true,
     isSecure: true,
   },
@@ -39,7 +37,6 @@ const projects: Project[] = [
     title: "Restaurant Project",
     description: "An elegant restaurant website with menu presentation, reservation system, and responsive design.",
     technologies: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
-    link: "https://ahmedhany102.github.io/Restaurant/",
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,
     isSecure: true,
@@ -48,7 +45,6 @@ const projects: Project[] = [
     title: "Weather Dashboard",
     description: "An interactive weather application that fetches real-time data from OpenWeather API, displaying current conditions and forecasts.",
     technologies: ["React", "OpenWeather API", "Chart.js", "Angular"],
-    link: "https://openweathermap.org/",
     image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isApiOnly: true,
     isSecure: true,
@@ -57,6 +53,13 @@ const projects: Project[] = [
 
 export function Projects() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const handleProjectClick = (title: string) => {
+    toast.info("الموقع تحت التطوير حالياً", {
+      description: `مشروع ${title} قيد التطوير والتحديث`,
+      duration: 4000,
+    });
+  };
 
   return (
     <section id="projects" className="section">
@@ -130,13 +133,11 @@ export function Projects() {
                   <Button 
                     variant={activeIndex === index ? "default" : "outline"}
                     size="sm" 
-                    asChild
                     className="transition-all duration-300 flex items-center gap-2"
+                    onClick={() => handleProjectClick(project.title)}
                   >
-                    <a href={project.link} target="_blank" rel="noopener noreferrer">
-                      View Project
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
+                    View Project
+                    <ExternalLink className="h-4 w-4" />
                   </Button>
                 </CardFooter>
               </Card>
