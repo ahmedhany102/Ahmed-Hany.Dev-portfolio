@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -24,7 +25,7 @@ export function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Junior Frontend Developer
+            Frontend Developer | Future Full-Stack & Cybersecurity Specialist
           </motion.h2>
           
           <motion.p 
@@ -34,8 +35,8 @@ export function About() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             I build beautiful, responsive websites and applications with modern web technologies. 
-            As a junior developer on my journey toward cybersecurity and full-stack development, 
-            I'm constantly learning and improving my skills to create better digital experiences.
+            Currently evolving toward becoming a full-stack developer and cybersecurity specialist, 
+            focusing on penetration testing, bug bounty hunting, and vulnerability discovery to create secure digital experiences.
           </motion.p>
           
           <motion.div 
@@ -73,19 +74,19 @@ export function About() {
               transition={{ duration: 0.5, delay: 0.8 }}
             >
               <p className="text-lg">
-                I'm Ahmed Hany, a passionate junior frontend web developer with a keen eye for creating 
+                I'm Ahmed Hany, a passionate frontend web developer with a keen eye for creating 
                 beautiful, functional websites and applications. I'm on an exciting journey toward 
-                becoming a cybersecurity expert and full-stack developer.
+                becoming a full-stack developer and cybersecurity expert specializing in penetration testing and vulnerability assessment.
               </p>
               <p className="text-lg">
                 Currently, I'm a frontend team member in a development team where I'm constantly 
                 improving my skills and gaining valuable real-world experience. I'm actively learning 
-                database management, network fundamentals, and cybersecurity principles.
+                database management, network fundamentals, and cybersecurity principles with a focus on ethical hacking and bug bounty hunting.
               </p>
               <p className="text-lg">
-                When I'm not coding, you can find me exploring new security technologies, studying 
-                network protocols, or building projects that combine my frontend skills with backend 
-                and security knowledge.
+                When I'm not coding, you can find me exploring new security technologies, practicing penetration testing techniques, 
+                or building projects that combine my frontend skills with backend 
+                and security knowledge to create robust, secure applications.
               </p>
             </motion.div>
             
@@ -100,22 +101,22 @@ export function About() {
               <div className="space-y-4">
                 <Card>
                   <CardContent className="p-6">
-                    <h4 className="font-medium mb-2">Education</h4>
+                    <h4 className="font-medium mb-2">Education & Development</h4>
                     <p className="text-sm text-muted-foreground">
                       I am currently in the early stages of my Computer Science education, 
                       learning the fundamentals and building a strong theoretical foundation while 
-                      applying practical skills through projects.
+                      applying practical skills through projects and preparing for a career in full-stack development and cybersecurity.
                     </p>
                   </CardContent>
                 </Card>
                 
                 <Card>
                   <CardContent className="p-6">
-                    <h4 className="font-medium mb-2">Work Experience</h4>
+                    <h4 className="font-medium mb-2">Current Focus</h4>
                     <p className="text-sm text-muted-foreground">
-                      I'm currently working as a junior frontend developer in a development team, 
-                      where I'm building and maintaining responsive, user-friendly interfaces 
-                      and continuously expanding my technical expertise under the guidance of senior developers.
+                      I'm currently working as a frontend developer while actively expanding into backend technologies 
+                      and cybersecurity. My goal is to specialize in penetration testing, bug bounty hunting, 
+                      and vulnerability discovery to build more secure applications.
                     </p>
                   </CardContent>
                 </Card>
@@ -124,9 +125,9 @@ export function About() {
                   <CardContent className="p-6">
                     <h4 className="font-medium mb-2">Philosophy</h4>
                     <p className="text-sm text-muted-foreground">
-                      I believe in creating clean, maintainable code and user-friendly interfaces. 
-                      As a junior developer, I value continuous learning and collaboration to improve
-                      my skills and deliver exceptional value in every project.
+                      I believe in creating clean, maintainable, and secure code. 
+                      As I transition toward full-stack development and cybersecurity, I value continuous learning 
+                      and ethical practices to deliver secure, exceptional value in every project.
                     </p>
                   </CardContent>
                 </Card>
@@ -138,3 +139,4 @@ export function About() {
     </section>
   );
 }
+

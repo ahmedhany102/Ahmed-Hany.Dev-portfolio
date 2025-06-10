@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -11,7 +12,6 @@ type Project = {
   description: string;
   technologies: string[];
   image: string;
-  isFrontendOnly?: boolean;
   isApiOnly?: boolean;
   isSecure?: boolean;
 };
@@ -22,7 +22,6 @@ const projects: Project[] = [
     description: "A personal portfolio website with modern design, animations, and interactive elements.",
     technologies: ["JavaScript", "React", "Tailwind CSS"],
     image: "/lovable-uploads/828b9fe3-8b06-455b-949a-81fbe7e83205.png",
-    isFrontendOnly: true,
     isSecure: true,
   },
   {
@@ -30,7 +29,6 @@ const projects: Project[] = [
     description: "A comprehensive ecommerce platform showcasing modern web development skills and user experience design.",
     technologies: ["React", "Node.js", "PostgreSQL"],
     image: "/lovable-uploads/9382eb85-cfa0-43b6-bc51-ad21005c18bb.png",
-    isFrontendOnly: true,
     isSecure: true,
   },
   {
@@ -38,7 +36,6 @@ const projects: Project[] = [
     description: "An elegant restaurant website with menu presentation, reservation system, and responsive design.",
     technologies: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-    isFrontendOnly: true,
     isSecure: true,
   },
   {
@@ -67,7 +64,7 @@ export function Projects() {
         <h2 className="text-3xl md:text-4xl font-bold mb-6">My Projects</h2>
         <p className="text-lg text-muted-foreground mb-12 max-w-2xl">
           Here are some of the projects I've worked on. Each one presented unique 
-          challenges and opportunities to apply different technologies and techniques.
+          challenges and opportunities to apply different technologies and techniques as I progress toward becoming a full-stack developer and cybersecurity specialist.
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -93,11 +90,6 @@ export function Projects() {
                         <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-md flex items-center gap-1">
                           <ShieldCheck className="h-3 w-3" />
                           Secure
-                        </span>
-                      )}
-                      {project.isFrontendOnly && (
-                        <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-md">
-                          Frontend Only
                         </span>
                       )}
                       {project.isApiOnly && (
@@ -148,3 +140,4 @@ export function Projects() {
     </section>
   );
 }
+
