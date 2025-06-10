@@ -20,7 +20,7 @@ const projects: Project[] = [
   {
     title: "Ahmed Hany's Portfolio",
     description: "A personal portfolio website with modern design, animations, and interactive elements.",
-    technologies: ["React", "Tailwind CSS", "Angular"],
+    technologies: ["JavaScript", "React", "Tailwind CSS"],
     link: "https://ahmed-hany-folio-glow.lovable.app/",
     image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,
@@ -29,7 +29,7 @@ const projects: Project[] = [
   {
     title: "Online Ecommerce Store",
     description: "A comprehensive ecommerce platform showcasing modern web development skills and user experience design.",
-    technologies: ["React", "Node.js", "MongoDB", "Angular"],
+    technologies: ["React", "Node.js", "PostgreSQL"],
     link: "https://w8-wardrobe.lovable.app/",
     image: "https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isFrontendOnly: true,

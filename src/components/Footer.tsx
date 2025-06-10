@@ -44,7 +44,7 @@ export function Footer() {
               Facebook
             </a>
             <a 
-              href="https://www.instagram.com/a7med._.hany/" 
+              href="https://www.instagram.com/_.w_8._/" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"

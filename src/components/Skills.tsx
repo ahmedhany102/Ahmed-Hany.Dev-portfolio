@@ -34,7 +34,7 @@ const skillsData: Skill[] = [
   { name: "Linux", level: 60, category: "tools", color: "bg-yellow-800", description: "Operating system skills and command line proficiency" },
   { name: "Webflow", level: 50, category: "frontend", color: "bg-blue-500", description: "Visual web design platform for creating responsive websites", status: "Learning" },
   { name: "SQL Database", level: 30, category: "backend", color: "bg-green-700", description: "Database design and structured query language for data management", status: "Learning" },
-  { name: "Network Basics", level: 25, category: "backend", color: "bg-red-600", description: "Understanding network fundamentals and protocols", status: "Learning" },
+  { name: "Network Basics", level: 70, category: "backend", color: "bg-red-600", description: "Understanding network fundamentals and protocols" },
 ];
 
 export function Skills() {
