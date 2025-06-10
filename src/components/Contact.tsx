@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -279,7 +278,7 @@ export function Contact() {
                     <span>Facebook</span>
                   </a>
                   <a 
-                    href="https://www.instagram.com/a7med._.hany/" 
+                    href="https://www.instagram.com/_.w_8._/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -288,31 +287,6 @@ export function Contact() {
                     <span>Instagram</span>
                   </a>
                 </div>
-              </div>
-
-              {/* Security Info */}
-              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Lock className="h-5 w-5 text-green-600 dark:text-green-400" />
-                  <h3 className="text-lg font-medium text-green-800 dark:text-green-300">Java-Powered Security</h3>
-                </div>
-                <p className="text-sm text-green-700 dark:text-green-400">
-                  This contact form is protected by advanced Java backend security:
-                </p>
-                <ul className="text-xs text-green-700 dark:text-green-400 mt-2 space-y-1">
-                  <li className="flex items-start gap-1">
-                    <span className="mt-0.5">•</span>
-                    <span>Military-grade encryption and device fingerprinting</span>
-                  </li>
-                  <li className="flex items-start gap-1">
-                    <span className="mt-0.5">•</span>
-                    <span>IP tracking and VPN detection blocks limit circumvention</span>
-                  </li>
-                  <li className="flex items-start gap-1">
-                    <span className="mt-0.5">•</span>
-                    <span>Multi-factor validation prevents automated submissions</span>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>

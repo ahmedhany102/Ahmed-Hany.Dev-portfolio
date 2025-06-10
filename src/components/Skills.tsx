@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView, AnimatePresence } from "framer-motion";
@@ -20,7 +21,7 @@ type Skill = {
 const skillsData: Skill[] = [
   { name: "HTML & CSS", level: 100, category: "frontend", color: "bg-orange-500", description: "Semantic HTML5 and modern CSS including Flexbox and Grid" },
   { name: "JavaScript", level: 50, category: "frontend", color: "bg-yellow-500", description: "ES6+, async/await, promises, and functional programming", status: "Learning" },
-  { name: "React", level: 0, category: "coming-soon", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks" },
+  { name: "React", level: 10, category: "frontend", color: "bg-blue-500", description: "Building interactive user interfaces with React components and hooks", status: "Learning" },
   { name: "TypeScript", level: 0, category: "coming-soon", color: "bg-blue-600", description: "Type-safe code with interfaces, generics, and utility types" },
   { name: "Tailwind CSS", level: 0, category: "coming-soon", color: "bg-cyan-500", description: "Utility-first CSS framework for rapid UI development" },
   { name: "Next.js", level: 0, category: "coming-soon", color: "bg-black", description: "React framework for production with SSR and static site generation" },
@@ -32,7 +33,8 @@ const skillsData: Skill[] = [
   { name: "Node.js", level: 0, category: "coming-soon", color: "bg-green-600", description: "Server-side JavaScript runtime environment" },
   { name: "Linux", level: 60, category: "tools", color: "bg-yellow-800", description: "Operating system skills and command line proficiency" },
   { name: "Webflow", level: 50, category: "frontend", color: "bg-blue-500", description: "Visual web design platform for creating responsive websites", status: "Learning" },
-  { name: "SQL", level: 0, category: "coming-soon", color: "bg-green-700", description: "Structured Query Language for database management" },
+  { name: "SQL Database", level: 30, category: "backend", color: "bg-green-700", description: "Database design and structured query language for data management", status: "Learning" },
+  { name: "Network Basics", level: 25, category: "backend", color: "bg-red-600", description: "Understanding network fundamentals and protocols", status: "Learning" },
 ];
 
 export function Skills() {
@@ -117,7 +119,7 @@ export function Skills() {
             animate={{ opacity: isInView ? 1 : 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            As a junior frontend developer in a development team, I'm constantly improving my skills and learning new technologies to grow professionally.
+            As a junior frontend developer in a development team, I'm on my journey toward becoming a cybersecurity expert and full-stack developer, constantly improving my skills and learning new technologies.
           </motion.p>
 
           <SkillsFilter 
@@ -218,7 +220,7 @@ export function Skills() {
             animate={{ opacity: isFutureInView ? 1 : 0, y: isFutureInView ? 0 : -20 }}
             transition={{ duration: 0.6 }}
           >
-            Future Skills
+            Future Skills & Career Path
           </motion.h2>
 
           <motion.p 
@@ -227,8 +229,8 @@ export function Skills() {
             animate={{ opacity: isFutureInView ? 1 : 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            While I'm currently a frontend developer, I'm actively learning backend technologies 
-            to become a full-stack developer. Here's my learning path and future goals.
+            I'm actively working toward becoming a cybersecurity expert and full-stack developer. 
+            Currently learning database management, network fundamentals, and building my path to advanced security and development skills.
           </motion.p>
           
           <motion.div 
@@ -241,17 +243,17 @@ export function Skills() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Cog className="h-5 w-5" />
-                  Programming Foundations
+                  Cybersecurity Path
                 </CardTitle>
                 <CardDescription>
-                  Building strong fundamentals
+                  Building security expertise
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  I'm learning C++ to improve my problem-solving skills and strengthen my programming logic. 
-                  Additionally, I'm studying C# and object-oriented programming principles to build a solid 
-                  foundation for backend development.
+                  I'm learning network fundamentals and cybersecurity principles to become a security expert. 
+                  This includes understanding network protocols, security frameworks, and threat analysis to 
+                  protect digital assets and systems.
                 </p>
               </CardContent>
             </Card>
@@ -260,17 +262,17 @@ export function Skills() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Database className="h-5 w-5" />
-                  Future Learning
+                  Database & Backend
                 </CardTitle>
                 <CardDescription>
-                  Expanding my knowledge
+                  Data management skills
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  My learning roadmap includes data structures, databases, and ASP.NET for building robust 
-                  web applications. These skills will allow me to create more complex and scalable projects 
-                  in the future.
+                  Currently learning SQL database design and management, along with backend development 
+                  principles. These skills will enable me to build secure, scalable applications with 
+                  proper data handling and storage solutions.
                 </p>
               </CardContent>
             </Card>
@@ -279,17 +281,17 @@ export function Skills() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Server className="h-5 w-5" />
-                  Backend Technologies
+                  Full-Stack Development
                 </CardTitle>
                 <CardDescription>
-                  Modern web development
+                  Complete web solutions
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  I plan to learn Node.js as my primary backend technology, which will complement my 
-                  existing frontend skills and enable me to develop full-stack JavaScript applications
-                  with seamless integration between client and server.
+                  My goal is to become a full-stack developer with strong cybersecurity knowledge. 
+                  This combination will allow me to create secure, end-to-end web applications 
+                  while understanding and implementing security best practices.
                 </p>
               </CardContent>
             </Card>

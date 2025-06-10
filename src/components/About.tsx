@@ -34,8 +34,8 @@ export function About() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             I build beautiful, responsive websites and applications with modern web technologies. 
-            As a junior developer on a team, I'm constantly learning and improving my skills to create 
-            better digital experiences.
+            As a junior developer on my journey toward cybersecurity and full-stack development, 
+            I'm constantly learning and improving my skills to create better digital experiences.
           </motion.p>
           
           <motion.div 
@@ -74,17 +74,18 @@ export function About() {
             >
               <p className="text-lg">
                 I'm Ahmed Hany, a passionate junior frontend web developer with a keen eye for creating 
-                beautiful, functional websites and applications. I focus on writing clean, 
-                efficient code and implementing modern design principles.
+                beautiful, functional websites and applications. I'm on an exciting journey toward 
+                becoming a cybersecurity expert and full-stack developer.
               </p>
               <p className="text-lg">
                 Currently, I'm a frontend team member in a development team where I'm constantly 
-                improving my skills and gaining valuable real-world experience. As a junior developer,
-                I collaborate with senior team members to build and maintain responsive web interfaces.
+                improving my skills and gaining valuable real-world experience. I'm actively learning 
+                database management, network fundamentals, and cybersecurity principles.
               </p>
               <p className="text-lg">
-                When I'm not coding, you can find me exploring new technologies, contributing 
-                to open-source projects, or sharing my knowledge through blog posts and tutorials.
+                When I'm not coding, you can find me exploring new security technologies, studying 
+                network protocols, or building projects that combine my frontend skills with backend 
+                and security knowledge.
               </p>
             </motion.div>
             
