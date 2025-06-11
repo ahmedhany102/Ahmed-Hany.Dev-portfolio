@@ -1,5 +1,3 @@
-
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -25,7 +23,7 @@ export function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Frontend Developer | Future Full-Stack & Cybersecurity Specialist
+            Frontend Developer
           </motion.h2>
           
           <motion.p 
@@ -139,4 +137,3 @@ export function About() {
     </section>
   );
 }
-
