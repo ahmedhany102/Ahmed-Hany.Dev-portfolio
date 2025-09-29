@@ -278,7 +278,7 @@ export function Contact() {
                     <span>Facebook</span>
                   </a>
                   <a 
-                    href="https://www.instagram.com/_.w_8._/" 
+                    href="https://www.instagram.com/a7med0xd/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
