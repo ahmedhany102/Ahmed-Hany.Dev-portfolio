@@ -34,7 +34,7 @@ export function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            Discover my journey as a frontend developer
+            Discover my journey as a frontend developer & bug hunter
           </motion.p>
           
           <motion.div 
