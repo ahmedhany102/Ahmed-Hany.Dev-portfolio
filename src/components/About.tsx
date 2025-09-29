@@ -23,7 +23,7 @@ export function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Frontend Developer
+            Frontend Developer & Bug Hunter
           </motion.h2>
           
           <motion.p 
@@ -33,8 +33,8 @@ export function About() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             I build beautiful, responsive websites and applications with modern web technologies. 
-            Currently evolving toward becoming a full-stack developer and cybersecurity specialist, 
-            focusing on penetration testing, bug bounty hunting, and vulnerability discovery to create secure digital experiences.
+            As a bug hunter, I've learned Linux, network fundamentals, and vulnerability discovery techniques 
+            to find security flaws and create more secure digital experiences.
           </motion.p>
           
           <motion.div 
@@ -72,19 +72,19 @@ export function About() {
               transition={{ duration: 0.5, delay: 0.8 }}
             >
               <p className="text-lg">
-                I'm Ahmed Hany, a passionate frontend web developer with a keen eye for creating 
-                beautiful, functional websites and applications. I'm on an exciting journey toward 
-                becoming a full-stack developer and cybersecurity expert specializing in penetration testing and vulnerability assessment.
+                I'm Ahmed Hany, a passionate frontend web developer and bug hunter with expertise in creating 
+                beautiful, functional websites and discovering security vulnerabilities. I've learned Linux systems, 
+                network fundamentals, and vulnerability assessment techniques to excel in bug bounty hunting.
               </p>
               <p className="text-lg">
                 Currently, I'm a frontend team member in a development team where I'm constantly 
-                improving my skills and gaining valuable real-world experience. I'm actively learning 
-                database management, network fundamentals, and cybersecurity principles with a focus on ethical hacking and bug bounty hunting.
+                improving my skills and gaining valuable real-world experience. Through my bug hunting journey, 
+                I've mastered Linux environments, network protocols, and security analysis techniques.
               </p>
               <p className="text-lg">
-                When I'm not coding, you can find me exploring new security technologies, practicing penetration testing techniques, 
-                or building projects that combine my frontend skills with backend 
-                and security knowledge to create robust, secure applications.
+                When I'm not coding, you can find me hunting for bugs, analyzing network traffic, 
+                exploring Linux systems, or researching new vulnerability discovery methods to strengthen 
+                both my development and security expertise.
               </p>
             </motion.div>
             
@@ -112,9 +112,9 @@ export function About() {
                   <CardContent className="p-6">
                     <h4 className="font-medium mb-2">Current Focus</h4>
                     <p className="text-sm text-muted-foreground">
-                      I'm currently working as a frontend developer while actively expanding into backend technologies 
-                      and cybersecurity. My goal is to specialize in penetration testing, bug bounty hunting, 
-                      and vulnerability discovery to build more secure applications.
+                      I'm currently working as a frontend developer and actively practicing bug hunting. 
+                      I've learned Linux systems, network analysis, and vulnerability discovery techniques 
+                      to excel in bug bounty programs and security research.
                     </p>
                   </CardContent>
                 </Card>
@@ -124,8 +124,8 @@ export function About() {
                     <h4 className="font-medium mb-2">Philosophy</h4>
                     <p className="text-sm text-muted-foreground">
                       I believe in creating clean, maintainable, and secure code. 
-                      As I transition toward full-stack development and cybersecurity, I value continuous learning 
-                      and ethical practices to deliver secure, exceptional value in every project.
+                      Through my bug hunting experience with Linux, networks, and vulnerability analysis, 
+                      I bring a security-first mindset to development and ethical hacking practices.
                     </p>
                   </CardContent>
                 </Card>

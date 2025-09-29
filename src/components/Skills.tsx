@@ -119,7 +119,7 @@ export function Skills() {
             animate={{ opacity: isInView ? 1 : 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            As a junior frontend developer in a development team, I'm on my journey toward becoming a cybersecurity expert and full-stack developer, constantly improving my skills and learning new technologies.
+            As a frontend developer and bug hunter, I've mastered Linux systems, network fundamentals, and vulnerability discovery techniques while constantly improving my development skills.
           </motion.p>
 
           <SkillsFilter 
